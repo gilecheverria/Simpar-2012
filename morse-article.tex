@@ -1,0 +1,165 @@
+\documentclass{llncs}
+%\documentclass[letterpaper, 10pt]{article}
+
+
+\usepackage{graphicx}
+\usepackage{subfig}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{authblk}
+
+
+\newcommand{\TODO}[1]{\textbf{TODO:} \emph{#1} }
+\newcommand{\NOTE}[1]{\textbf{NOTE:} \emph{#1} }
+% Uncomment the following lines to remove TODO and NOTE labels
+\renewcommand{\TODO}[1]{}
+\renewcommand{\NOTE}[1]{}
+
+\def\GenoM{G\textsuperscript{en}oM~}
+
+\lstset{language=Python, basicstyle=\scriptsize, tabsize=4}
+
+
+
+\title{\LARGE \bf Evaluation of Robotics Software Using the MORSE Simulator}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Standard author list
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\author[1]{Gilberto Echeverria \thanks{gechever@laas.fr}}
+%\author[1]{S{\'e}verin Lemaignan \thanks{slemaign@laas.fr}}
+%\author[1]{Arnaud Degroote \thanks{adegroot@laas.fr}}
+%\author[2]{Michael Karg\thanks{kargm@in.tum.de}}
+%\author[3]{Pierrick Koch\thanks{pierrick.koch@gmail.com}}
+%\author[4]{Charles Lesire-Cabaniols\thanks{charles.lesire@onera.fr}}
+%\affil[1]{LAAS-CNRS, Toulouse, France}
+%\affil[2]{TUM, Munich, Germany}
+%\affil[3]{IRD, Hanoi, Vietnam}
+%\affil[4]{ONERA, Toulouse, France}
+%
+%\renewcommand\Authands{ and }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% LLNCS author list
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\author{Gilberto Echeverria\inst{1}\thanks{\email{gechever@laas.fr}}
+    \and S{\'e}verin Lemaignan\inst{1}\thanks{\email{slemaign@laas.fr}}
+    \and Arnaud Degroote\inst{1}\thanks{\email{adegroot@laas.fr}}
+    \and Simon Lacroix\inst{1}\thanks{\email{slacroix@laas.fr}}
+    \and Michael Karg\inst{2}\thanks{\email{kargm@in.tum.de}}
+    \and Pierrick Koch\inst{3}\thanks{\email{pierrick.koch@gmail.com}}
+    \and Charles Lesire-Cabaniols\inst{4}\thanks{\email{charles.lesire@onera.fr}}
+}
+
+\institute{
+	    CNRS, LAAS, 7 avenue du colonel Roche, F-31077 Toulouse, France
+	    Universit{\'e} de Toulouse, UPS, INSA, INP, ISAE, LAAS,
+	    F-31077 Toulouse, France
+        \and
+        Technische Universit{\"a}t M{\"u}nchen,
+        Arcisstrasse 21, 80333 M{\"u}nchen, Germany
+        \and
+        IRD,
+        Hanoi, Vietnam
+        \and
+       	ONERA Centre de Toulouse -- DCSD, 2 avenue {\'E}douard Belin,
+    	F-31055 Toulouse, France
+}
+
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+  MORSE is a robotics simulation software developed with the collaboration of
+  researchers in several universities. It is a tool to test robotics software
+  and algorithms in fairly complex environments. The simulations allow a medium
+  to high level of abstraction, to enable researchers to focus on the solution
+  of complex tasks.  This is accomplished by connecting directly with the
+  robotics software using various existing middlewares, such as ROS, YARP and
+  others.
+  MORSE makes use of the Blender 3D software to produce realistic looking
+  environments with physics simulation.  After three years of development,
+  MORSE is a mature tool with a large collection of components.
+
+  We present in this paper the current state of the simulator as well as the
+  use cases where it has been used to validate several robotics algorithms.
+\end{abstract}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+\label{section:introduction}
+
+Citing of Gazebo: \cite{Koenig04designand}.
+
+
+
+\section{Blender Implementation}
+\label{section:blender}
+
+MORSE is developed as a library of Python scripts that run on the Blender Game Engine (BGE).
+The BGE offers a powerful environment for a graphical application with a variety of events.
+Blender uses the Bullet Physics Engine to simulate collisions between objects, which requires configuring the properties of each element, such as mass, friction coefficient, collision bounding box and other parameters.
+
+MORSE is organised as a main core of control functionality that sets up and coordinates the events in the BGE, and a collection of components that can be used to assemble a robot. Additionally, there is a whole set of communication tools that allow each of the MORSE components to connect with external robotics software via middlewares.
+
+Individual components are minimalistic in their functionality and  completely middleware agnostic. They store the important data that needs to be shared outside MORSE in a Python dictionary called \texttt{local\_data}.
+When a simulation scene is created, the components are linked to middlewares as specified in the configuration script, and the necessary functionality is added to the components to be able to transmit/receive data through the middleware.
+During a simulation, each component performs its expected task and exchanges the \texttt{local\_data} with the external software.
+
+
+
+The animation armatures of Blender can also be used inside the BGE, along with the IK solver iTasc \cite{iTaSC}. This is used for robotics arms and for a virtual human avatar.
+The human avatar allows a user to interact with the robots in the simulated environment. It can be controlled much like a character in a videogame, using either the mouse and keyboard or a combination of the Microsoft Kinect and the Nintendo Wiimote. The avatar can navigate around the environment, sit down on chairs and take objects specifically marked as ``graspable''.
+
+\section{Simulated Components}
+\label{section:components}
+
+\begin{itemize}
+  \item Robots
+  \item Sensors
+  \item Actuators
+\end{itemize}
+
+
+\section{Use Cases}
+
+\begin{itemize}
+  \item Outdoors simulation (Rosace and Action)
+  \item Indoors simulation (KUL)
+  \item Human interaction (Kinect + Wiimote)
+  \item Flying robots
+\end{itemize}
+
+
+\section{New Features}
+
+\begin{itemize}
+  \item Builder API
+  \item Multi-node
+  \item Simulated or abstract wheels
+  \item Middleware configurations
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Summary}
+\label{section:discussion}
+
+
+MORSE is developed as an open--source project, the source code can be
+downloaded from the GIT repository:
+(\url{http://github.com/laas/morse.git})
+
+User documentation and additional information is also available at
+(\url{http://morse.openrobots.org})
+
+
+\subsubsection*{Acknowledgments}
+This work has been partially supported by the DGA founded Action project
+(\url{http://action.onera.fr}) and the STAE foundation Rosace project\\
+(\url{http://www.fondation-stae.net})
+
+% ---- Bibliography ----
+\bibliographystyle{unsrt}
+\bibliography{morseBiblio}
+\end{document}
