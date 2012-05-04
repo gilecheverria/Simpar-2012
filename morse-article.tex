@@ -90,9 +90,19 @@
 \section{Introduction}
 \label{section:introduction}
 
-Citing of Gazebo: \cite{Koenig04designand}.
+Simulators:
+Usarsim \cite{usarsim-4209284},
+Player/Stage/Gazebo suite \cite{psg-1232},
+Gazebo \cite{Koenig04designand},
+Webots \cite{Webots04}
+Morse \cite{5980252}
+
+Simulation of very large numbers of simplified robots \cite{springerlink:10.1007/s11721-008-0014-4}, using Player
 
 
+Middlewares:
+Genom \cite{MALLET-2011-599677},
+ROS \cite{ros-288}
 
 \section{Blender Implementation}
 \label{section:blender}
@@ -101,6 +111,13 @@ MORSE is developed as a library of Python scripts that run on the Blender Game E
 The BGE offers a powerful environment for a graphical application with a variety of events.
 Blender uses the Bullet Physics Engine to simulate collisions between objects, which requires configuring the properties of each element, such as mass, friction coefficient, collision bounding box and other parameters.
 
+The animation armatures of Blender can also be used inside the BGE, along with the IK solver iTasc \cite{iTaSC}. This is used for robotics arms and for a virtual human avatar.
+The human avatar allows a user to interact with the robots in the simulated environment. It can be controlled much like a character in a videogame, using either the mouse and keyboard or a combination of the Microsoft Kinect and the Nintendo Wiimote. The avatar can navigate around the environment, sit down on chairs and take objects specifically marked as ``graspable''.
+
+
+\section{MORSE Architecture}
+\label{section:architecture}
+
 MORSE is organised as a main core of control functionality that sets up and coordinates the events in the BGE, and a collection of components that can be used to assemble a robot. Additionally, there is a whole set of communication tools that allow each of the MORSE components to connect with external robotics software via middlewares.
 
 Individual components are minimalistic in their functionality and  completely middleware agnostic. They store the important data that needs to be shared outside MORSE in a Python dictionary called \texttt{local\_data}.
@@ -108,9 +125,16 @@ When a simulation scene is created, the components are linked to middlewares as 
 During a simulation, each component performs its expected task and exchanges the \texttt{local\_data} with the external software.
 
 
+\section{New Features}
 
-The animation armatures of Blender can also be used inside the BGE, along with the IK solver iTasc \cite{iTaSC}. This is used for robotics arms and for a virtual human avatar.
-The human avatar allows a user to interact with the robots in the simulated environment. It can be controlled much like a character in a videogame, using either the mouse and keyboard or a combination of the Microsoft Kinect and the Nintendo Wiimote. The avatar can navigate around the environment, sit down on chairs and take objects specifically marked as ``graspable''.
+\begin{itemize}
+  \item Builder API
+  \item Multi-node
+  \item Simulated or abstract wheels
+  \item Middleware configurations
+\end{itemize}
+
+
 
 \section{Simulated Components}
 \label{section:components}
@@ -125,21 +149,12 @@ The human avatar allows a user to interact with the robots in the simulated envi
 \section{Use Cases}
 
 \begin{itemize}
-  \item Outdoors simulation (Rosace and Action)
+  \item Outdoors simulation (Rosace \cite{springerlink:10.1007/978-3-642-12384-9_18,springerlink:10.1007/978-3-642-28786-2_32} and Action)
   \item Indoors simulation (KUL)
   \item Human interaction (Kinect + Wiimote)
-  \item Flying robots
 \end{itemize}
 
 
-\section{New Features}
-
-\begin{itemize}
-  \item Builder API
-  \item Multi-node
-  \item Simulated or abstract wheels
-  \item Middleware configurations
-\end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Summary}
