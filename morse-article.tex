@@ -145,6 +145,32 @@ During a simulation, each component performs its expected task and exchanges the
   \item Actuators
 \end{itemize}
 
+\subsection{The Human Avatar}
+
+For human-robot-interaction scenarios, we were looking for a way to combine the reactive and sometimes unpredictable behaviour of a human 
+interacting with its environment with a simulated robot. Therefore the human avatar of the MORSE simulator has been equipped with an intuitive 
+control that enables users to interact with the simulated environment. Inspired by modern 3D-computer games, the user
+takes a third-person perspective behind the human avatar to move around like shown in figure \ref{fig:human_control} on the left. 
+While moving around, the camera tries to avoid that objects and walls are placed between the camera and the human avatar to prevent occlusions. 
+All objects that can be interacted with can be displayed by just pressing a key on the keyboard which is also illustrated in figure 
+\ref{fig:human_control} on the left. When the user decides to interact with an object, the camera switches to a first-person perspective 
+and offers an interface showing possible actions the user can take when pointing to specific objects like shown in figure \ref{fig:human_control} 
+on the right. Those actions at the moment include picking up and releasing objects, opening and closing drawers and cupboards and switching
+on and off specific objects like a light or an oven. 
+
+\begin{figure}[h!]
+\centering
+\begin{tabular}{cc}
+ \includegraphics[width=0.475\textwidth]{pics/human_control_1.png} & \includegraphics[width=0.475\textwidth]{pics/human_control_2.png}
+\end{tabular}
+\caption{The left picture shows a third-person view of the human component that is used to navigate in the environment. Here
+objects, that the human can interact with, are displayed. The right picture shows the first-person perspective of the human 
+avatar that indicates a possible ``pick-up-action'' with the bread.}
+\label{fig:human_control}
+\end{figure}
+
+This computer-game like control enables users to perform pick- and place actions in simulated worlds using the 
+human component of MORSE. At the same time, the robot(s) in the simulation can be controlled one of the robotic middlewares. 
 
 \section{Use Cases}
 
@@ -176,5 +202,5 @@ This work has been partially supported by the DGA founded Action project
 
 % ---- Bibliography ----
 \bibliographystyle{unsrt}
-\bibliography{morseBiblio}
+\bibliography{./morseBiblio}
 \end{document}
