@@ -145,8 +145,6 @@ the \texttt{local\_data} with the external software.
   \item Actuators
 \end{itemize}
 
-
-
 \subsection{New Features}
 
 \begin{itemize}
@@ -209,14 +207,12 @@ avatar that indicates a possible ``pick-up-action'' with the bread.}
 \label{fig:human_control}
 \end{figure}
 
-This computer-game like control enables users to perform pick- and place actions in simulated worlds using the 
-human component of MORSE. At the same time, the robot(s) in the simulation can be controlled one of the robotic middlewares. 
-
 The avatar can be controlled much like a character in a videogame, using either the mouse and
-keyboard or a combination of the Microsoft Kinect and the Nintendo Wiimote. The
-avatar can navigate around the environment, sit down on chairs and take objects
-specifically marked as ``graspable''.
+keyboard or a combination of the Microsoft Kinect and the Nintendo Wiimote. This computer-game like control enables users to 
+perform pick- and place actions in simulated worlds using the human component of MORSE while at the same time, the
+simulated robot(s) can be controlled the supported robotic middlewares.
 
+% TODO: Add picture of kinect/wiimote control
 
 
 \section{Use Cases}
@@ -285,6 +281,18 @@ Alternatively, the avatar can directly export the position of all of its
 joints, and feed them back to the robot, simulating a full motion capture
 system and avoiding the processing costs.
 
+
+An example use case in this scenario is the testing and validation of human-aware
+navigation planners of service robots in human-centered environments at TU Munich. 
+In this case, a simulated human tracking system provides the human pose to the robot
+while the robot navigates in the environment in a way that is safe and legible
+for the human. For evaluation of human-aware navigation strategies, 
+Lichtenth{\"a}ler et al. \cite{lichtenthaeler2012increasing} used MORSE for 
+video-based user studies. 
+In another project at TU Munich, a simulated kitchen environment is used
+to test and evaluate a plan recognition and monitoring system using the 
+semantic camera of MORSE as a simulated object recognition system with 
+a reactive robot control system.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
