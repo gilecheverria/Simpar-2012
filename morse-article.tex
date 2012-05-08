@@ -90,22 +90,46 @@
 \section{Introduction}
 \label{section:introduction}
 
+
+
 Simulators:
-Usarsim \cite{usarsim-4209284},
-Player/Stage/Gazebo suite \cite{psg-1232},
-Gazebo \cite{Koenig04designand},
-Webots \cite{Webots04}
-Morse \cite{5980252}
+The Player/Stage/Gazebo suite \cite{psg-1232} is very well known in robotics.
+The Stage \cite{Gerkey03theplayer/stage} simulator is basically a 2D simulator
+very capable for navigation on flat and closed environments.
+An advantage of it is the capability of simulating very large numbers of
+simplified robots \cite{springerlink:10.1007/s11721-008-0014-4}.
+The more recent Gazebo \cite{Koenig04designand} is the 3D simulation program,
+which has received an important boost in its development with its integration
+into the ROS platform.
 
-Simulation of very large numbers of simplified robots \cite{springerlink:10.1007/s11721-008-0014-4}, using Player
+The USARSim \cite{usarsim-4209284} shares many design concepts with MORSE. It
+was initially developed as a simulator for search and rescue operations, uses
+the Unreal Engine gaming platform and is built with the concept of modular
+components. However, it does not support some of the most common robotics
+middlewares.
+
+Another popular robotics simulator is Webots \cite{Webots04}. It provides a
+full programming environment to create customised robots and environments, but
+its interface is complex to use when creating new components and robots.
+% TODO: (Check the middleware connectivity on this one)
 
 
-Middlewares:
-Genom \cite{MALLET-2011-599677},
-ROS \cite{ros-288}
+
+
+% Genom \cite{MALLET-2011-599677},
+
 
 \section{Blender Implementation}
 \label{section:blender}
+
+Being based on the Blender 3D \cite{blender|web} modelling software, any
+object, robot or environment can be created and immediately be made available
+to use in MORSE.
+Many other file formats for 3D models can also be imported directly into
+Blender, further increasing the range of components that can be used.
+The high level of graphical detail is specially useful for realistic looking
+simulations, and very important when doing image processing from simulated
+video cameras.
 
 MORSE is developed as a library of Python scripts that run on the Blender Game
 Engine (BGE).  The BGE offers a powerful environment for a graphical
@@ -121,20 +145,46 @@ robotics arms and for a virtual human avatar.
 \section{MORSE Architecture}
 \label{section:architecture}
 
+% Morse \cite{5980252}
+
+One of the characteristics of MORSE is that it does not deal with the super
+realistic simulation of each of the robotics components. Instead, it uses
+simplified components that can nevertheless provide the same data as their real
+world counterparts. This simplification not only allows the simulation to be
+faster, but also permits the robotics researchers to concentrate on testing
+higher level algorithms for the completion of the desired tasks.
+
 MORSE is organised as a main core of control functionality that sets up and
 coordinates the events in the BGE, and a collection of components that can be
-used to assemble a robot. Additionally, there is a whole set of communication
+used to assemble a robot. Additionally, there is a variety of communication
 tools that allow each of the MORSE components to connect with external robotics
-software via middlewares.
+software via various middlewares.
+MORSE has support for some of the most commonly used robotics middlewares,
+including ROS \cite{ros-288}, Pocolibs and YARP \cite{metta|ars06}.
+Other middlewares are constantly being added, mainly driven by the needs of new
+users. This process is simple, as existing middleware bindings can be used as a
+template for the new ones.
 
 Individual components are minimalistic in their functionality and  completely
 middleware agnostic. They store the important data that needs to be shared
-outside MORSE in a Python dictionary called \texttt{local\_data}.  When a
+outside MORSE in a Python dictionary called \texttt{local\_data}. When a
 simulation scene is created, the components are linked to middlewares as
 specified in the configuration script, and the necessary functionality is added
 to the components to be able to transmit/receive data through the middleware.
 During a simulation, each component performs its expected task and exchanges
 the \texttt{local\_data} with the external software.
+
+The data employed by the components can also be altered through the use of
+components called \emph{modifiers}. These provide access to the
+\texttt{local\_data} to add noise or change the data as required. For instance,
+transforming the coordinate frame used by Blender into the Universal Transverse
+Mercator (UTM) coordinate system.
+
+MORSE can be easily extended by adding new components that inherit from the
+existing base classes. All components are programmed in Python, since this is
+the language that Blender uses for its scripts. However, when coding components
+that require a faster processing time, they can be implemented in C/C++, and
+then use SWIG to create interfaces that can be included in Python.
 
 \subsection{Simulated Components}
 \label{section:components}
