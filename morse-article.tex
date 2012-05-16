@@ -81,69 +81,77 @@
   MORSE makes use of the Blender 3D software to produce realistic looking
   environments with physics simulation.  After three years of development,
   MORSE is a mature tool with a large collection of components.
-
+  Among the innovative features of MORSE are: middleware overlays that make
+  integration with external software transparent, distributed multi-node
+  simulation for complex scenes and a human avatar that can interact with
+  the robots in simulation.
   We present in this paper the current state of the simulator as well as the
-  use cases where it has been used to validate several robotics algorithms.
+  use cases where it has been used to validate several robotics experiments.
 \end{abstract}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 \label{section:introduction}
 
+Computer simulations are today an essential component in robotics research.
+Almost every sort of experiment can be validated in simulation before executing
+it on real robots.  For this validation to be useful, the simulation must
+provide enough fidelity with respect to the real world, within the requirements
+of the experimentation.
+Creating a fully realistic simulation would be near impossible, since there are
+too many aspects that it would need to handle. This is why there are many
+simulators with various capacities, each one created to comply with specific
+requirements.
+
+The MORSE simulator we present here is meant as a tool that can be used to test
+and evaluate very complex robots performing advanced missions in real life
+environments. It does not focus on lower level control of the robot, or the
+specific mechanics of its components. In turn, it can provide all the
+functionality necessary to evaluate the algorithms that control a robot during
+the execution of a mission.
 
 
-Simulators:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Competing Simulators}
+\label{section:othersims}
+
+There are a number of other robotics simulators available, both commercial and
+free. We evaluate here the ones whose functionality is most similar to MORSE:
+
 The Player/Stage/Gazebo suite \cite{psg-1232} is very well known in robotics.
-The Stage \cite{Gerkey03theplayer/stage} simulator is basically a 2D simulator
-very capable for navigation on flat and closed environments.
-An advantage of it is the capability of simulating very large numbers of
-simplified robots \cite{springerlink:10.1007/s11721-008-0014-4}.
-The more recent Gazebo \cite{Koenig04designand} is the 3D simulation program,
-which has received an important boost in its development with its integration
+It is a full set of tools that include the Player communication layer and two
+very integrated simulators: Stage \cite{Gerkey03theplayer/stage} is basically a
+2D simulator optimised for navigation on flat and closed environments.
+One of its advantages is the capability to handle very large numbers of
+simplified robots \cite{springerlink:10.1007/s11721-008-0014-4}. However, it is
+not ideal for more complex scenarios, specially in 3D space.  The more recent
+Gazebo \cite{Koenig04designand} was developed to cover these shortcomings.
+It has received an important boost in its development with its integration
 into the ROS platform.
 
 The USARSim \cite{usarsim-4209284} shares many design concepts with MORSE. It
 was initially developed as a simulator for search and rescue operations, uses
 the Unreal Engine gaming platform and is built with the concept of modular
-components. However, it does not support some of the most common robotics
-middlewares.
+components. It is widely used as an evaluation tool for the well known RoboCup
+competitions. However, it uses a custom interface to communicate with external
+software and does not support some of the most common robotics middlewares.
 
-Another popular robotics simulator is Webots \cite{Webots04}. It provides a
-full programming environment to create customised robots and environments, but
-its interface is complex to use when creating new components and robots.
-% TODO: (Check the middleware connectivity on this one)
-
-
+Another popular robotics simulator is Webots \cite{Webots04}, which is a
+commercial product. It provides a full programming environment to create
+customised robots and environments, but its interface is complex to use when
+creating new components and robots.
+It also has an integrated code editor, but the control programs created in it
+must then be converted and transferred to the final robot platform.
 
 
 % Genom \cite{MALLET-2011-599677},
 
 
-\section{Blender Implementation}
-\label{section:blender}
 
-Being based on the Blender 3D \cite{blender|web} modelling software, any
-object, robot or environment can be created and immediately be made available
-to use in MORSE.
-Many other file formats for 3D models can also be imported directly into
-Blender, further increasing the range of components that can be used.
-The high level of graphical detail is specially useful for realistic looking
-simulations, and very important when doing image processing from simulated
-video cameras.
 
-MORSE is developed as a library of Python scripts that run on the Blender Game
-Engine (BGE).  The BGE offers a powerful environment for a graphical
-application with a variety of events.
-Blender uses the Bullet Physics Engine to simulate collisions between objects,
-which requires configuring the properties of each element, such as mass,
-friction coefficient, collision bounding box and other parameters.
-
-The animation armatures of Blender can also be used inside the BGE, along with
-the Inverse Kinematics (IK) solver iTasc \cite{iTaSC}. This is used for
-robotics arms and for a virtual human avatar.
-
-\section{MORSE Architecture}
-\label{section:architecture}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{MORSE Overview}
+\label{section:overview}
 
 % Morse \cite{5980252}
 
@@ -154,11 +162,19 @@ world counterparts. This simplification not only allows the simulation to be
 faster, but also permits the robotics researchers to concentrate on testing
 higher level algorithms for the completion of the desired tasks.
 
-MORSE is organised as a main core of control functionality that sets up and
-coordinates the events in the BGE, and a collection of components that can be
-used to assemble a robot. Additionally, there is a variety of communication
-tools that allow each of the MORSE components to connect with external robotics
-software via various middlewares.
+MORSE is developed as a library of Python scripts that run on the Blender Game
+Engine (BGE).  The BGE offers a powerful environment for a graphical
+application and uses the Bullet Physics Engine.
+Objects in the BGE can be completely configured, from physics properties (like
+mass, friction coefficients and collision bounding boxes) to event and
+behaviour scripts using Python
+
+
+The simulation is organised as a main core of control functionality that sets
+up and coordinates the events in the BGE, and a collection of components that
+can be used to assemble a robot. Additionally, there is a variety of
+communication tools that allow each of the MORSE components to connect with
+external robotics software via various middlewares.
 MORSE has support for some of the most commonly used robotics middlewares,
 including ROS \cite{ros-288}, Pocolibs and YARP \cite{metta|ars06}.
 Other middlewares are constantly being added, mainly driven by the needs of new
@@ -186,102 +202,146 @@ the language that Blender uses for its scripts. However, when coding components
 that require a faster processing time, they can be implemented in C/C++, and
 then use SWIG to create interfaces that can be included in Python.
 
-\subsection{Simulated Components}
-\label{section:components}
+\subsection{Blender Integration}
+\label{section:blender}
 
-\begin{itemize}
-  \item Robots
-  \item Sensors
-  \item Actuators
-\end{itemize}
-
-\subsection{New Features}
-
-\begin{itemize}
-  \item Builder API
-    This is a set of Python functions to create and configure the MORSE
-    simulation scenarios. It completely hides the interface of Blender from the
-    user, so that those unfamiliar with Blender can directly configure MORSE
-    using Python scripts. The API offers new classes to create robots, sensors
-    and actuators, as well as changing any of the parameters used by these
-    components. The middleware bindings of each component can also be specified
-    in the same script.
-  \item Multi-node
-    The simulation of multiple robots in the complex environments permitted by
-    MORSE is very demanding on computational resources, particularly the
-    display of the graphics. MORSE offers the possibility of running multiple
-    instances of the same simulation scenario in separate computers, but
-    coordinated by a central server program, called the \emph{multi-node
-    manager}. While all nodes show all of the robots, each node will only
-    be charged with processing the control of a few robots. The movements
-    of robots and specific objects in one node are sent to the multi-node
-    manager, which in turn collects the updated positions across all nodes
-    and redistributes the information, so that all nodes can immediately
-    reflected the changes.  The multi-node server is also charged with
-    synchronising the time and events across all nodes. It can also be used
-    to slow down the simulation. However, at the current time it is not
-    possible to accelerate the simulation speed.
-  \item Simulated or abstract wheels
-    Robots in the initial versions of MORSE were treated as a box sliding over
-    the surface of the ground. A recent addition to the simulator are robots
-    with more realistic wheel physics. The speed of the wheels can be
-    controlled directly, and the material properties can be adjusted for
-    weight, friction.
-  \item Middleware configurations
-    New bindings have been integrated into MORSE, allowing it to communicate
-    with ROS and MOOS, besides the already available Pocolibs, YARP and
-    sockets.
-\end{itemize}
-
-\subsection{The Human Avatar}
-
-For human-robot-interaction scenarios, we were looking for a way to combine the reactive and sometimes unpredictable behaviour of a human 
-interacting with its environment with a simulated robot. Therefore the human avatar of the MORSE simulator has been equipped with an intuitive 
-control that enables users to interact with the simulated environment. Inspired by modern 3D-computer games, the user
-takes a third-person perspective behind the human avatar to move around like shown in figure \ref{fig:human_control} on the left. 
-While moving around, the camera tries to avoid the objects and walls placed between the camera and the human avatar to prevent occlusions. 
-All objects that can be interacted with can be displayed by just pressing a key on the keyboard which is also illustrated in figure 
-\ref{fig:human_control} on the left. When the user decides to interact with an object, the camera switches to a first-person perspective 
-and offers an interface showing possible actions the user can take when pointing to specific objects like shown in figure \ref{fig:human_control} 
-on the right. Those actions at the moment include picking up and releasing objects, opening and closing drawers and cupboards and switching
-on and off specific objects like a light or an oven. 
+Being based on the Blender 3D \cite{blender|web} modelling software, any
+object, robot or environment can be created and immediately be made available
+to use in MORSE.
+Many other file formats for 3D models can also be imported directly into
+Blender, further increasing the range of components that can be used.
+The high level of graphical detail is specially useful for realistic looking
+simulations, and very important when doing image processing from simulated
+video cameras.
+Figure \ref{fig:models} shows the modelling capabilities of Blender being used
+to create the MORSE robots and environments. The right image shows also the
+view obtained from a camera mounted on the helicopter robot.
 
 \begin{figure}[h!]
 \centering
 \begin{tabular}{cc}
- \includegraphics[width=0.475\textwidth]{pics/human_control_1.png} & \includegraphics[width=0.475\textwidth]{pics/human_control_2.png}
+ %\includegraphics[width=0.475\textwidth]{pics/MORSE-rmax_mesh.png} &
+ %\includegraphics[width=0.475\textwidth]{pics/MORSE-quarry_ok-1.png}
+ \includegraphics[height=1.5in]{pics/MORSE-rmax_mesh.png} &
+ \includegraphics[height=1.5in]{pics/MORSE-quarry_ok-1.png}
 \end{tabular}
-\caption{The left picture shows a third-person view of the human component that is used to navigate in the environment. Here
-objects, that the human can interact with, are displayed. The right picture shows the first-person perspective of the human 
-avatar that indicates a possible ``pick-up-action'' with the bread.}
-\label{fig:human_control}
+\caption{Left: Modelling of an R-Max robotic helicopter. Right: Robots on a
+    terrain imported from a Digital Elevation Map, using a Python plug-in
+    for Blender developed along with MORSE.}
+\label{fig:models}
 \end{figure}
 
-The avatar can be controlled much like a character in a videogame, using either the mouse and
-keyboard or a combination of the Microsoft Kinect and the Nintendo Wiimote. This computer-game like control enables users to 
-perform pick- and place actions in simulated worlds using the human component of MORSE while at the same time, the
-simulated robot(s) can be controlled the supported robotic middlewares.
+Experiments in \emph{field robotics} benefit from having an accurate
+representation of the terrain where the real robots are expected to perform.
 
-% TODO: Add picture of kinect/wiimote control
+%one robot in large outdoors environments. The terrain should not be initially
+%known to the robots, so they are expected to explore and navigate autonomously
+%as they carry out their mission.
+%The robots do not directly affect the environment, but have a large number of
+%sensors that allow them to navigate and accomplish specific objectives.
 
 
-\section{Use Cases}
-\label{section:usecases}
+\subsection{Component Library and Scene Construction}
+\label{section:components}
 
-MORSE is currently being applied to test robotics algorithms mainly in two
-different fields:
+To be as versatile as possible, MORSE consists of a collection of components
+that can be used to construct robots with various configurations. The
+components are classified as:
 
-\textbf{Field robotics}: These experiments regard the deployment of more than
-one robot in large outdoors environments. The terrain should not be initially
-known to the robots, so they are expected to explore and navigate autonomously
-as they carry out their mission.
-The robots do not directly affect the environment, but have a large number of
-sensors that allow them to navigate and accomplish specific objectives.
+\begin{itemize}
+  \item Robots in MORSE are mostly just the physical representation of the
+    robot. They do nothing by themselves, and only define the physical shape
+    and properties like mass, friction and collision bounds Most robots in
+    MORSE are treated as a box sliding over the surface of the ground. There
+    are however a couple of robots with a more realistic wheel physics
+    behaviour, where the speed of the wheels can be controlled directly to
+    provide the movement of the robot, using the corresponding actuator
+    components
+  \item Sensors recover data from the simulated world and store it. This is
+    done using the Blender predefined interfaces for the GE and Python scripts.
+    For example, laser scanners use ray tracing operations, while cameras use
+    renders from the perspective of the camera to produce images
+  \item Actuators are charged with carrying out actions within the simulated
+    world. There are actuators to provide motion to the robots through several
+    methods and algorithms, or to control moving parts such as robotic arms or
+    pan-tilt units
+\end{itemize}
 
-The Action \cite{6106782} project consists on the cooperation between ground
-and air robots to locate and follow moving targets. The tests are done in
-specific environments, which require transporting the robots a considerable
-distance, always being dependant on the prevailing weather.  The use of
+Additionally, MORSE provides a is a set of Python functions to create and
+configure all MORSE simulation scenarios. This tool is know as the
+\emph{Builder API}. It completely hides the interface of Blender from the user,
+so that those unfamiliar with Blender can directly configure MORSE using Python
+scripts. The API offers new classes to create robots, sensors and actuators, as
+well as changing any of the parameters used by these components, and including
+additional objects (furniture, obstacles, etc.). Middleware bindings of
+each component can also be specified in the same script.
+
+
+
+\subsection{Multi-node Simulation}
+\label{section:multinode}
+
+The simulation of multiple robots in the complex environments permitted by
+MORSE is very demanding on computational resources, particularly the
+display of the graphics. MORSE offers the possibility of running multiple
+instances of the same simulation scenario in separate computers, but
+coordinated by a central server program, called the \emph{multi-node
+manager}. While all nodes show all of the robots, each node will only
+be charged with processing the control of a few robots. The movements
+of robots and specific objects in one node are sent to the multi-node
+manager, which in turn collects the updated positions across all nodes
+and redistributes the information, so that all nodes can immediately
+reflected the changes.  The multi-node server is also charged with
+synchronising the time and events across all nodes. It can also be used
+to slow down the simulation. However, at the current time it is not
+possible to accelerate the simulation speed.
+
+This functionality was developed for applications that require a large amount
+of robots. Our use case is another outdoors robotics project: \emph{Rosace}
+\cite{springerlink:10.1007/978-3-642-12384-9_18,springerlink:10.1007/978-3-642-28786-2_32}.
+Its main objective is the coordination of robotic agents in search and rescue
+operations in the case of a disaster. In this scenario, terrestrial robots must
+be able to locate human victims, provide support for the victims and avoid
+dangerous areas. The robots in the team are to be equipped with different
+payloads, and take autonomous decisions on which of them should perform
+different tasks in the mission, such as searching, providing a communications
+relay, and helping victims directly.
+
+To handle such large groups of robots, only a few are directly controlled by
+each simulation node. The multi-node manager is then charged with synchronising
+the positions of all the robots and the victims as well.
+
+
+%MORSE also permits giving some basic behaviour to the simulated human victims,
+%by scripting movement patterns and allowing them to visually show their
+%injured or healthy status by using different colours.
+
+
+
+\subsection {Middleware Configurations}
+\label{section:middlewares}
+
+Many research laboratories use different interfaces to communicate with their
+robots. In order to be usable along with any architecture, MORSE keeps a
+separation between components and middlewares.  When a simulation is started,
+the bindings between sensors/actuators and middlewares are read from the
+configuration script, and it is only then that components ``learn'' how to
+communicate with the outside world.
+This separation means that any middleware can be integrated with MORSE, by
+simply providing the scripts to marshal MORSE data in the expected format.
+Middlewares currently supported include ROS, MOOS, Pocolibs, YARP and
+TCP/IP sockets.
+
+Another advantage is the possibility of using many different middlewares within
+a single simulation scenario. This is exemplified in the \emph{Action project}
+\cite{6106782}, which consists on the cooperation between ground
+and air robots to locate and follow moving targets.
+The robots involved use completely different architectures, but should all
+communicate with MORSE.
+
+Tests for this project are done in specific environments, which require
+transporting the robots a considerable distance, always being dependant on the
+prevailing weather.  The use of
 simulation offers the advantage of running the experiments regardless of the
 weather, and not having to plan long trips to the actual experimental site.
 Simulation also simplifies the execution of test runs, since they can be
@@ -290,41 +350,64 @@ require the coordination of larger teams of heterogeneous robots. The physical
 robots required for these stages are not currently available, but simulation
 permits for testing of these scenarios in advance.
 
-Another project for outdoors robotics is Rosace
-\cite{springerlink:10.1007/978-3-642-12384-9_18,springerlink:10.1007/978-3-642-28786-2_32}.
-Its main objective is the coordination of robotic agents in search and rescue
-operations in the case of a disaster. In this scenario, terrestrial robots must
-be able to locate human victims, provide support for the victims and avoid
-dangerous areas. The robots in the team are to be equipped with different
-capabilities, and take autonomous decisions on which of them should perform
-different tasks in the mission, such as searching, providing a communications
-relay, and helping victims directly.  In the simulation, a source of fire, or
-other dangers, can be added to the scenario, to train the robots on taking
-preventive measures to avoid problems and protect the victims.
-There are few robots available to do real experiments for this project. The use
-of MORSE permits deploying large number of robots, with different payloads.
-MORSE also permits giving some basic behaviour to the simulated human victims,
-by scripting movement patterns and allowing them to visually show their
-injured or healthy status by using different colors.
 
 
-\textbf{Indoor service robotics}: In this scenario, complex robots are expected
-to collaborate with humans to carry out ordinary household tasks, such as
-cleaning, serving food or aiding humans to navigate an environment.
+\subsection{The Human Avatar}
+\label{section:human}
+
+
+
+For human-robot-interaction scenarios, we were looking for a way to combine the
+reactive and sometimes unpredictable behaviour of a human interacting with its
+environment with a simulated robot. Therefore the human avatar of the MORSE
+simulator has been equipped with an intuitive 
+control that enables users to interact with the simulated environment. Inspired
+by modern 3D-computer games, the user takes a third-person perspective behind
+the human avatar to move around like shown in figure \ref{fig:human_control} on
+the left. 
+While moving around, the camera tries to avoid the objects and walls placed
+between the camera and the human avatar to prevent occlusions.  All objects
+that can be interacted with can be displayed by just pressing a key on the
+keyboard which is also illustrated in figure \ref{fig:human_control} on the
+left. When the user decides to interact with an object, the camera switches to
+a first-person perspective and offers an interface showing possible actions the
+user can take when pointing to specific objects like shown in figure
+\ref{fig:human_control} on the right. Those actions at the moment include
+picking up and releasing objects, opening and closing drawers and cupboards and
+switching on and off specific objects like a light or an oven. 
+
+\begin{figure}[h!]
+\centering
+\begin{tabular}{cc}
+ \includegraphics[width=0.475\textwidth]{pics/human_control_1.png} &
+ \includegraphics[width=0.475\textwidth]{pics/human_control_2.png}
+\end{tabular}
+\caption{The left picture shows a third-person view of the human component that
+    is used to navigate in the environment. Here objects, that the human can
+    interact with, are displayed. The right picture shows the first-person
+    perspective of the human avatar that indicates a possible
+    ``pick-up-action'' with the bread.}
+\label{fig:human_control}
+\end{figure}
+
+The avatar can be controlled much like a character in a videogame, using either
+the mouse and keyboard or a combination of the Microsoft Kinect and the
+Nintendo Wiimote. This computer-game like control enables users to perform
+pick- and place actions in simulated worlds using the human component of MORSE
+while at the same time, the simulated robot(s) can be controlled the supported
+robotic middlewares.
+
+% TODO: Add picture of kinect/wiimote control
+
+The human avatar is meant to be used in \emph{indoor service robotics} scenarios.
+In these, complex robots are expected to collaborate with humans to carry out
+ordinary household tasks, such as cleaning, serving food or aiding humans to
+navigate an environment.
 Robots used in these experiments are equipped with one or two arms, and are
 capable of grasping objects. They are also expected to react to the actions of
 their human collaborator, using video cameras, motion detectors or telemetry to
 determine the location, pose and attitude of the human.
-
-In MORSE, the robotic arms can be operated either by control of the end
-effector and using Inverse Kinematics, or by direct control of the angles at
-each joint.  The physics simulation using Bullet allows the detection of object
-collisions.
-
-To represent the human collaborator, a simulated avatar has been developed in
-MORSE. By using game console controllers (Kinect and Wiimote), the user can
-interact with the simulated environment. The simulated robot can then acquire
-data about the pose of the avatar. This can be done at two different levels of
+This can be done at two different levels of
 abstraction. Using the video cameras to recognise the human and its pose can be
 done realistically, with the associated computational cost and uncertainties.
 Alternatively, the avatar can directly export the position of all of its
@@ -332,8 +415,13 @@ joints, and feed them back to the robot, simulating a full motion capture
 system and avoiding the processing costs.
 
 
+In MORSE, the robotic arms can be operated either by control of the end
+effector and using Inverse Kinematics (using the iTasc \cite{iTaSC} solver
+available in the BGE), or by direct control of the angles at each joint.
+The animation of the human avatar also uses IK for its animations.
+
 An example use case in this scenario is the testing and validation of human-aware
-navigation planners of service robots in human-centered environments at TU Munich. 
+navigation planners of service robots in human-centred environments at TU Munich. 
 In this case, a simulated human tracking system provides the human pose to the robot
 while the robot navigates in the environment in a way that is safe and legible
 for the human. For evaluation of human-aware navigation strategies, 
@@ -360,7 +448,7 @@ User documentation and additional information is also available at
 
 \subsubsection*{Acknowledgments}
 This work has been partially supported by the DGA founded Action project
-(\url{http://action.onera.fr}) and the STAE foundation Rosace project\\
+(\url{http://action.onera.fr}) and the STAE foundation Rosace project
 (\url{http://www.fondation-stae.net})
 
 % ---- Bibliography ----
