@@ -220,8 +220,6 @@ view obtained from a camera mounted on the helicopter robot.
 \begin{figure}[h!]
 \centering
 \begin{tabular}{cc}
- %\includegraphics[width=0.475\textwidth]{pics/MORSE-rmax_mesh.png} &
- %\includegraphics[width=0.475\textwidth]{pics/MORSE-quarry_ok-1.png}
  \includegraphics[height=1.5in]{pics/MORSE-rmax_mesh.png} &
  \includegraphics[height=1.5in]{pics/MORSE-quarry_ok-1.png}
 \end{tabular}
@@ -267,6 +265,10 @@ components are classified as:
     pan-tilt units
 \end{itemize}
 
+%
+% DESCRIPTION OF COMPONENT OVERLAYS
+%
+
 Additionally, MORSE provides a is a set of Python functions to create and
 configure all MORSE simulation scenarios. This tool is know as the
 \emph{Builder API}. It completely hides the interface of Blender from the user,
@@ -276,6 +278,62 @@ well as changing any of the parameters used by these components, and including
 additional objects (furniture, obstacles, etc.). Middleware bindings of
 each component can also be specified in the same script.
 
+
+
+\subsection {Middleware Configurations}
+\label{section:middlewares}
+
+Many research laboratories use different interfaces to communicate with their
+robots. In order to be usable along with any architecture, MORSE keeps a
+separation between components and middlewares.  When a simulation is started,
+the bindings between sensors/actuators and middlewares are read from the
+configuration script, and it is only then that components acquire the functions
+necessary to communicate with the outside world.
+This separation means that any middleware can be integrated with MORSE, by
+simply providing the scripts to marshal MORSE data in the expected format.
+Middlewares currently supported include ROS, MOOS, Pocolibs, YARP and
+TCP/IP sockets.
+Information exchange between the simulator and the robotics software can be
+done by a constant data stream, or via request/reply interfaces. These are also
+implemented for all of the middlewares available.
+
+Another advantage is the possibility of using many different middlewares within
+a single simulation scenario. This is exemplified in the \emph{Action project}
+\cite{6106782}, which consists on the cooperation between ground
+and air robots to locate and follow moving targets.
+The robots involved use completely different architectures, but should all
+communicate with MORSE.
+
+Tests for this project are done in specific environments, which require
+transporting the robots a considerable distance, always being dependant on the
+prevailing weather.  The use of
+simulation offers the advantage of running the experiments regardless of the
+weather, and not having to plan long trips to the actual experimental site.
+Simulation also simplifies the execution of test runs, since they can be
+restarted from the initial point within seconds.  Future stages of the project
+require the coordination of larger teams of heterogeneous robots. The physical
+robots required for these stages are not currently available, but simulation
+permits for testing of these scenarios in advance.
+
+
+\subsection{Adjustable Levels of Realism}
+\label{section:realism}
+
+The various components in MORSE provide functionality that can be used to test
+the data treatment at different levels of realism. Some of the sensors provide
+the same kind of raw data as their real counterparts, which can then be
+processed to extract the relevant information, and later used to take
+decisions. When the processing of data is not of interest to the experiment,
+alternative sensors can be used which provide higher level data and avoid
+costly processing. The same is true for actuators that offer the choice
+between navigation to waypoints including basic obstacle avoidance, or full
+control over the trajectory and feeding the robot with linear and angular
+speeds.
+
+
+%
+% PROVIDE EXAMPLES OF APPLICATIONS USING DIFFERENT SENSORS AS REQUIRED
+%
 
 
 \subsection{Multi-node Simulation}
@@ -317,45 +375,8 @@ the positions of all the robots and the victims as well.
 %injured or healthy status by using different colours.
 
 
-
-\subsection {Middleware Configurations}
-\label{section:middlewares}
-
-Many research laboratories use different interfaces to communicate with their
-robots. In order to be usable along with any architecture, MORSE keeps a
-separation between components and middlewares.  When a simulation is started,
-the bindings between sensors/actuators and middlewares are read from the
-configuration script, and it is only then that components ``learn'' how to
-communicate with the outside world.
-This separation means that any middleware can be integrated with MORSE, by
-simply providing the scripts to marshal MORSE data in the expected format.
-Middlewares currently supported include ROS, MOOS, Pocolibs, YARP and
-TCP/IP sockets.
-
-Another advantage is the possibility of using many different middlewares within
-a single simulation scenario. This is exemplified in the \emph{Action project}
-\cite{6106782}, which consists on the cooperation between ground
-and air robots to locate and follow moving targets.
-The robots involved use completely different architectures, but should all
-communicate with MORSE.
-
-Tests for this project are done in specific environments, which require
-transporting the robots a considerable distance, always being dependant on the
-prevailing weather.  The use of
-simulation offers the advantage of running the experiments regardless of the
-weather, and not having to plan long trips to the actual experimental site.
-Simulation also simplifies the execution of test runs, since they can be
-restarted from the initial point within seconds.  Future stages of the project
-require the coordination of larger teams of heterogeneous robots. The physical
-robots required for these stages are not currently available, but simulation
-permits for testing of these scenarios in advance.
-
-
-
 \subsection{The Human Avatar}
 \label{section:human}
-
-
 
 For human-robot-interaction scenarios, we were looking for a way to combine the
 reactive and sometimes unpredictable behaviour of a human interacting with its
@@ -428,7 +449,7 @@ for the human. In this project, MORSE has not only be used as a powerful tool
 for testing human-aware navigation strategies before carrying out experiments
 with real humans. It was also used for their evaluation as 
 Lichtenth{\"a}ler et al. show in \cite{lichtenthaeler2012increasing} by 
-video-based user studies. After successful testing and evalulation, the 
+video-based user studies. After successful testing and evaluation, the 
 human-aware navigation was applied using real robots and humans resulting in 
 a safe and reliable behaviour of the robot.
 
