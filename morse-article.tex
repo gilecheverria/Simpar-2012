@@ -344,11 +344,34 @@ view, hence simulating both the sensor and the detection and identification proc
 
 \subsection{Overlaying MORSE for my specific control architecture}
 
+The Builder API allows MORSE users to completely script the simulation
+environment, and to custom some of the MORSE components.
+First, one you want to attach a middleware to a MORSE component, in order
+to make it available in your architecture, your can either use a default
+serialization method provided by MORSE, or write a specific serialization function
+by your own. As it is just a Python function, it is very easy, portable, and it allows to make
+use of a lot of external libraries.
+%
+Second, MORSE implements the notion of {\em overlays}. A component overlay is a special pseudo
+component (sensor or actuator) that overrides the default component behaviour to better fit into a
+particular architecture.
+
+All these features have been for instance used when connecting MORSE to an existing AUV
+control architecture~\cite{barbier2011}. This architecture has a very specific interface
+with the AUV actuators, and connecting it to MORSE has been possible without modifyng any
+piece of code in MORSE, but just by overlaying some components:
 \begin{itemize}
-\item possibility to extend middlewares with new serialization functions
-\item overlays for actuators
-\item illustration through the submarine + ProCoSA application
+\item the middleware used is based on sockets; neverless, the default MORSE socket middleware 
+just serializes the component data one after the other; by providing a custom function, it
+has been possible to match to the quite complex protocol used in~\cite{barbier2011};
+\item the control of the robot is done by providing waypoints to actuators; a specific control,
+that consists in following a path defined by two 3D points, has been used by overlaying the
+default waypoint actuator of MORSE, without having to code any interface component between
+MORSE and our architecture.
 \end{itemize}
+
+Such ovarlaying facilities in MORSE allows to quite easily adapt it to your own control architecture.
+
 
 \subsection{Multi-node Simulation}
 \label{section:multinode}
