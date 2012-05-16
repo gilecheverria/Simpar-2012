@@ -7,7 +7,7 @@
 \usepackage{url}
 \usepackage{listings}
 \usepackage{authblk}
-
+\usepackage{hyperref}
 
 \newcommand{\TODO}[1]{\textbf{TODO:} \emph{#1} }
 \newcommand{\NOTE}[1]{\textbf{NOTE:} \emph{#1} }
@@ -277,8 +277,6 @@ well as changing any of the parameters used by these components, and including
 additional objects (furniture, obstacles, etc.). Middleware bindings of
 each component can also be specified in the same script.
 
-
-
 \subsection {Middleware Configurations}
 \label{section:middlewares}
 
@@ -333,7 +331,24 @@ speeds.
 %
 % PROVIDE EXAMPLES OF APPLICATIONS USING DIFFERENT SENSORS AS REQUIRED
 %
+For instance, researchers from Onera use MORSE to evaluate online probabilistic
+decision-making on an autonomous UAV. In a first scenario~\cite{teichteil2011},
+MDP-based policy optimization allows the UAV to find a landable zone for an emergency landing;
+as a land mapping algorithm is involved, they use camera sensors into MORSE, and connect
+their mapping algorithm to this sensor. On a second scenario~\cite{carvalho2012},
+a POMDP model is used to optimize the probability to track and intercept an identified target
+among others. As the objective of simulations is to evaluate the optimized strategy,
+processing simulated images is not necessary. Hence, instead of using a camera sensor, they use
+a virtual sensor that just returns a noisy identification of the target when it is in the robot filed-of-
+view, hence simulating both the sensor and the detection and identification process.
 
+\subsection{Overlaying MORSE for my specific control architecture}
+
+\begin{itemize}
+\item possibility to extend middlewares with new serialization functions
+\item overlays for actuators
+\item illustration through the submarine + ProCoSA application
+\end{itemize}
 
 \subsection{Multi-node Simulation}
 \label{section:multinode}
@@ -478,5 +493,5 @@ This work has been partially supported by the DGA founded Action project
 
 % ---- Bibliography ----
 \bibliographystyle{unsrt}
-\bibliography{./morseBiblio}
+\bibliography{./morseBiblio,charles}
 \end{document}
