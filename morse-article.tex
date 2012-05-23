@@ -59,7 +59,7 @@
         Institute for Advanced Study, Technische Universität M\"{u}nchen, 
 	Lichtenbergstrasse 2a, D-85748 Garching, Germany
         \and
-        UMR 6072 GREYC Université de Caen-Basse Normandie/CNRS/ENSICAEN, France
+        UMR 6072 GREYC Universit{\'e} de Caen-Basse Normandie/CNRS/ENSICAEN, France
         \and
        	ONERA -- the French Aerospace Lab, F-31055, Toulouse, France
 }
@@ -211,7 +211,16 @@ Blender, further increasing the range of components that can be used.
 The high level of graphical detail is specially useful for realistic looking
 simulations, and very important when doing image processing from simulated
 video cameras.
-Figure \ref{fig:models} shows the modelling capabilities of Blender being used
+To provide a simulation that is closer to the real life experiments, we have
+sought to create detailed models of the buildings and terrain where the
+experimentations are carried out. It is relatively straightforward using
+Blender to transform a 2D plan of a building into a 3D model. However, for
+experiments in \emph{field robotics} outdoor terrains are more difficult to
+create by hand. We have developed additional plug-ins for Blender that can
+read Digital Elevation Map (DEM) files and create the 3D mesh. Additionally
+using aerial photography for textures creates simulated environments that are
+very similar to the real ones.  Figure \ref{fig:models} shows the modelling
+capabilities of Blender being used
 to create the MORSE robots and environments. The right image shows also the
 view obtained from a camera mounted on the helicopter robot.
 
@@ -222,13 +231,9 @@ view obtained from a camera mounted on the helicopter robot.
  \includegraphics[height=1.5in]{pics/MORSE-quarry_ok-1.png}
 \end{tabular}
 \caption{Left: Modelling of an R-Max robotic helicopter. Right: Robots on a
-    terrain imported from a Digital Elevation Map, using a Python plug-in
-    for Blender developed along with MORSE.}
+    terrain imported from a Digital Elevation Map}
 \label{fig:models}
 \end{figure}
-
-Experiments in \emph{field robotics} benefit from having an accurate
-representation of the terrain where the real robots are expected to perform.
 
 %one robot in large outdoors environments. The terrain should not be initially
 %known to the robots, so they are expected to explore and navigate autonomously
@@ -263,11 +268,7 @@ components are classified as:
     pan-tilt units
 \end{itemize}
 
-%
-% DESCRIPTION OF COMPONENT OVERLAYS
-%
-
-Additionally, MORSE provides a is a set of Python functions to create and
+Additionally, MORSE provides a set of Python functions to create and
 configure all MORSE simulation scenarios. This tool is know as the
 \emph{Builder API}. It completely hides the interface of Blender from the user,
 so that those unfamiliar with Blender can directly configure MORSE using Python
@@ -275,6 +276,52 @@ scripts. The API offers new classes to create robots, sensors and actuators, as
 well as changing any of the parameters used by these components, and including
 additional objects (furniture, obstacles, etc.). Middleware bindings of
 each component can also be specified in the same script.
+
+
+\subsection{Component Overlays for Specific Architectures}
+\label{section:overlays}
+
+The Builder API allows MORSE users to completely script the simulation
+environment, and to customise some of the MORSE components.
+In the most elemental cases, when the user needs to attach a middleware to a
+MORSE component, in order to make it available into a specific architecture, it
+is possible to either use a default serialization method provided by MORSE, or
+write a specific serialization function by hand. This implies writing a new
+Python function, which is easy, portable, and it allows the use of
+external libraries written in C/C++ and interfaced trough SWIG.
+
+Under certain existing architectures, the MORSE components may provide the same
+functionality as their real world counterparts, but have a different interface.
+For instance, an actuator may have two separate functions to modify its linear
+and angular velocities, while the corresponding MORSE component uses only one
+function with the two parameters.  To avoid having to create additional
+components, MORSE implements the notion of \emph{component overlays}. These are
+special pseudo components (sensor or actuator) that override the default
+behaviour to better fit into a particular architecture. Overlays are
+implemented as Python scripts that provide an interface between the real
+component being simulated and the equivalent sensor available in MORSE.
+
+All these features have been used, for instance, when connecting MORSE to an
+existing AUV control architecture~\cite{barbier2011}. This architecture has a
+very specific interface with the AUV actuators, and connecting it to MORSE has
+been possible without modifying any piece of code in MORSE, but just by
+overlaying some components:
+\begin{itemize}
+  \item the middleware used is based on sockets; nevertheless, the default
+    MORSE socket middleware just serializes the component data one after the
+    other; by providing a custom function, it has been possible to match 
+    the quite complex protocol used in~\cite{barbier2011};
+  \item the control of the robot is done by providing waypoints to actuators; a
+    specific control, that consists in following a path defined by two 3D
+    points, has been used by overlaying the default waypoint actuator of
+    MORSE, without having to code any interface component between MORSE and
+    our architecture.
+\end{itemize}
+
+Such overlaying facilities in MORSE allows to quite easily adapt it to your own
+control architecture.
+
+
 
 \subsection {Middleware Configurations}
 \label{section:middlewares}
@@ -326,50 +373,18 @@ between navigation to waypoints including basic obstacle avoidance, or full
 control over the trajectory and feeding the robot with linear and angular
 speeds.
 
-
-%
-% PROVIDE EXAMPLES OF APPLICATIONS USING DIFFERENT SENSORS AS REQUIRED
-%
 For instance, researchers from Onera use MORSE to evaluate online probabilistic
 decision-making on an autonomous UAV. In a first scenario~\cite{teichteil2011},
-MDP-based policy optimization allows the UAV to find a landable zone for an emergency landing;
-as a land mapping algorithm is involved, they use camera sensors into MORSE, and connect
-their mapping algorithm to this sensor. On a second scenario~\cite{carvalho2012},
-a POMDP model is used to optimize the probability to track and intercept an identified target
-among others. As the objective of simulations is to evaluate the optimized strategy,
-processing simulated images is not necessary. Hence, instead of using a camera sensor, they use
-a virtual sensor that just returns a noisy identification of the target when it is in the robot filed-of-
-view, hence simulating both the sensor and the detection and identification process.
-
-\subsection{Overlaying MORSE for my specific control architecture}
-
-The Builder API allows MORSE users to completely script the simulation
-environment, and to custom some of the MORSE components.
-First, one you want to attach a middleware to a MORSE component, in order
-to make it available in your architecture, your can either use a default
-serialization method provided by MORSE, or write a specific serialization function
-by your own. As it is just a Python function, it is very easy, portable, and it allows to make
-use of a lot of external libraries.
-%
-Second, MORSE implements the notion of {\em overlays}. A component overlay is a special pseudo
-component (sensor or actuator) that overrides the default component behaviour to better fit into a
-particular architecture.
-
-All these features have been for instance used when connecting MORSE to an existing AUV
-control architecture~\cite{barbier2011}. This architecture has a very specific interface
-with the AUV actuators, and connecting it to MORSE has been possible without modifyng any
-piece of code in MORSE, but just by overlaying some components:
-\begin{itemize}
-\item the middleware used is based on sockets; neverless, the default MORSE socket middleware 
-just serializes the component data one after the other; by providing a custom function, it
-has been possible to match to the quite complex protocol used in~\cite{barbier2011};
-\item the control of the robot is done by providing waypoints to actuators; a specific control,
-that consists in following a path defined by two 3D points, has been used by overlaying the
-default waypoint actuator of MORSE, without having to code any interface component between
-MORSE and our architecture.
-\end{itemize}
-
-Such ovarlaying facilities in MORSE allows to quite easily adapt it to your own control architecture.
+MDP-based policy optimization allows the UAV to find a suitable zone for an
+emergency landing. MORSE camera sensors are used to feed the raw image data
+into the land mapping algorithm.
+On a second scenario~\cite{carvalho2012}, a POMDP model is used to optimize the
+probability to track and intercept an identified target among others. As the
+objective of simulations is to evaluate the optimized strategy, processing
+simulated images is not necessary. Hence, instead of using a camera sensor,
+they use a virtual sensor that just returns a noisy identification of the
+target when it is in the robot field-of-view, hence simulating both the sensor
+and the detection and identification process.
 
 
 \subsection{Multi-node Simulation}
@@ -479,11 +494,11 @@ The animation of the human avatar also uses IK for its animations.
 
 An example use case in this scenario is the testing and validation of human-aware
 navigation planners of service robots in human-centred environments at TU Munich. 
-In this case, a simulated human tracking system provides the human pose to the robot
-while the robot navigates in the environment in a way that is safe and legible
-for the human. In this project, MORSE has not only be used as a powerful tool 
-for testing human-aware navigation strategies before carrying out experiments
-with real humans. It was also used for their evaluation as 
+In this case, a simulated human tracking system provides the human pose to the
+robot while the robot navigates in the environment in a way that is safe and
+legible for the human. In this project, MORSE has not only be used as a
+powerful tool for testing human-aware navigation strategies before carrying out
+experiments with real humans. It was also used for their evaluation as 
 Lichtenth{\"a}ler et al. show in \cite{lichtenthaeler2012increasing} by 
 video-based user studies. After successful testing and evaluation, the 
 human-aware navigation was applied using real robots and humans resulting in 
@@ -498,6 +513,18 @@ a reactive robot control system.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Summary}
 \label{section:discussion}
+
+We have presented the new features that have been developed on the MORSE
+simulator.
+
+These features have been developed following the requirements of a variety of
+projects in robotics research. The design and architecture of MORSE has proved
+to be flexible and powerful enough to allow researchers to use it under various
+circumstances to test their robotics algorithms.  The new developments done on
+top of MORSE are made available to the whole community, thanks to the open
+source nature of the simulator.
+
+
 
 
 MORSE is developed as an open--source project, the source code can be
