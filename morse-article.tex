@@ -1,13 +1,12 @@
 \documentclass{llncs}
-%\documentclass[letterpaper, 10pt]{article}
-
-
 \usepackage{graphicx}
 \usepackage{subfig}
 \usepackage{url}
 \usepackage{listings}
 \usepackage{authblk}
-\usepackage{hyperref}
+\usepackage[pdftex]{hyperref}
+\usepackage{ifthen}
+\usepackage{amssymb}
 
 \newcommand{\TODO}[1]{\textbf{TODO:} \emph{#1} }
 \newcommand{\NOTE}[1]{\textbf{NOTE:} \emph{#1} }
@@ -17,9 +16,31 @@
 
 \def\genom{G\textsuperscript{en}oM~}
 
+% proof-reading
+\usepackage{xcolor}
+\usepackage[normalem]{ulem}
+\newcommand{\ra}{$\rightarrow$}
+\newcommand{\ugh}[1]{\textcolor{red}{\uwave{#1}}} % please rephrase
+\newcommand{\ins}[1]{\textcolor{blue}{\uline{#1}}} % please insert
+\newcommand{\del}[1]{\textcolor{red}{\sout{#1}}} % please delete
+\newcommand{\chg}[2]{\textcolor{red}{\sout{#1}}{\ra}\textcolor{blue}{\uline{#2}}} % please change
+\newcommand{\chk}[1]{\textcolor{ForestGreen}{#1}} % changed, please check
+
+% comments \nb{label}{color}{text}
+\newboolean{showcomments}
+\setboolean{showcomments}{true} % put to false for the final version
+\ifthenelse{\boolean{showcomments}}
+	{\newcommand{\nb}[3]{
+		{\colorbox{#2}{\bfseries\sffamily\scriptsize\textcolor{white}{#1}}}
+		{\textcolor{#2}{\sf\small$\blacktriangleright$\textit{#3}$\blacktriangleleft$}}}
+	 \newcommand{\version}{\emph{\scriptsize$-$Id$-$}}}
+	{\newcommand{\nb}[3]{}
+	 \newcommand{\version}{}}
+\newcommand{\pierrick}[1]{\nb{Pierrick}{green}{#1}}
+\newcommand{\serge}[1]{\nb{Serge}{blue}{#1}}
+
+
 \lstset{language=Python, basicstyle=\scriptsize, tabsize=4}
-
-
 
 \title{\LARGE \bf Versatile Robotics Simulation Using MORSE}
 %\title{\LARGE \bf Evaluation of Robotics Software Using the MORSE Simulator}
@@ -175,13 +196,15 @@ can be used to assemble a robot with sensors and actuators.
 A variety of communication tools allow each of the MORSE components to connect
 with external robotics software through middlewares.
 MORSE has support for some of the most commonly used robotics
-middlewares nowadays, including ROS \cite{ros-288}, Pocolibs and YARP \cite{metta|ars06}.
+middlewares nowadays, including ROS \cite{ros-288}, Pocolibs
+(\serge{Add a reference}) and YARP \cite{metta|ars06}.
 Other middlewares are constantly being added, mainly driven by the needs of new
 users. This process is simple, as existing middleware bindings can be used as a
 template for the new ones.
 
 MORSE aims to provide a simulation where robotics planning and control can be
 evaluated.
+\serge{This is not the purpose of every simulation engine ?}
 It does not intend to achieve super realistic simulation of individual robotics
 components. MORSE sensors and actuators can provide the same data as their real
 world counterparts. Some components have multiple variants that can work
@@ -199,6 +222,10 @@ to the components to be able to transmit/receive data through the middleware.
 During a simulation, each component performs its expected task and exchanges
 the \texttt{local\_data} with the external software.
 
+\serge{local\_data looks like an implementation trick for me. Is this
+  really important to describe this mechanism in the paper ? What are
+  the benefits regarding the simulation ?}
+
 The data employed by the components can also be altered through the use of
 components called \emph{modifiers}. These provide access to the
 \texttt{local\_data} to add noise or change the data as required to match the
@@ -207,6 +234,9 @@ frame used by Blender into the Universal Transverse Mercator (UTM) coordinate
 system.
 The whole data flow in MORSE can be seen in the diagram of
 Fig.~\ref{fig:dataflow}.
+
+\serge{Figure 1: Middlewares should be renamed as Middlewares
+  connectors, Modifiers should be denote as optional.}
 
 \begin{figure}[ht!]
 \centering
@@ -312,7 +342,7 @@ simulation, from large outdoors environments, to furniture and small items.
 All of these can be imported from individual Blender files into a simulation
 scenario.
 
-The construction and configuration of a scenario is done with a set of Python
+Building and configuration of scenarios are done with a set of Python
 classes provided by MORSE, known as the \emph{Builder API}. It completely hides
 the interface of Blender from the user, so that those unfamiliar with Blender
 can directly configure MORSE using Python scripts. Scripts can then be tracked
@@ -376,6 +406,8 @@ destination (even using a very basic obstacle avoidance mechanism), or
 
 This flexibility permits scientists to focus on specific problems, instead of
 juggling with many algorithms running at once.
+\serge{I don't understand the point here.}
+
 For instance, researchers from ONERA use MORSE to evaluate online probabilistic
 decision-making on an autonomous UAV. In a first scenario~\cite{teichteil2011},
 MDP-based policy optimization allows the UAV to find a suitable zone for an
@@ -389,6 +421,13 @@ sensor, they use the ``semantic camera'' to get the location of the target,
 adding some noise with modifiers to simulate both the sensor and the detection
 and identification process.
 
+\serge{Semantic Camera and Components overlays should be emphasized as
+  two new mechanisms of MORSE. Could we add more information on how
+  Semantic Camera works ?}
+
+\serge{Regarding the adjustable level of realism, you should talk
+  about the SEGWAY model available now in MORSE, as an example of a
+  very accurate physical model compared to the basic ones.}
 
 %-----------------------------------------------%
 \subsection {Middleware Configurations}
@@ -434,6 +473,11 @@ permits for testing of these scenarios in advance.
 \subsection{Component Overlays for Specific Architectures}
 \label{section:overlays}
 
+\serge{What is architecture here ? Existing software architecture,
+  hardware ?}
+\serge{Component overlays could be seen as an implementation of the
+  adapter Pattern: \url{https://en.wikipedia.org/wiki/Adapter_pattern}}
+
 Besides the existing variety of components and middlewares available, it is
 further possible to adapt these elements to better fit an existing
 architecture and allow true ``software-in-the-loop'' functionality.
@@ -475,6 +519,8 @@ without modifying the code in either the original architecture or MORSE.
 \subsection{Multi-node and Hybrid Simulation}
 \label{section:multinode}
 
+\serge{There is no reference to HLA here. I think this is a major
+  advance that should be cited appropriately.}
 The simulation of multiple robots in the complex environments permitted by
 MORSE is very demanding on computational and graphics resources.
 A scenario with several robots, video cameras and
@@ -508,6 +554,9 @@ For this project, two or three robots can be handled by a single simulation
 node, and synchronised with those in other nodes. The communication between the
 robots is handled outside the simulation, using specific sensors to simulate
 loss of connectivity due to occlusion or distance between the robots.
+\serge{The communication is handled outside the simulation by using
+  some simulated sensors ? There is a contradiction somewhere ?}
+
 The victims to be saved are internally considered as robots with scripted
 behaviour, so that their status and position is also synchronised by the
 multi-node manager.
@@ -524,6 +573,8 @@ real life.  The land robot will not be able to ``see'' the simulated helicopter
 with its cameras, but in this experiment that is not necessary, since even in
 real life the land robot is not capable of seeing the helicopter.
 
+\serge{Maybe this paragraph should emphasized that heterogenous physical simulations
+  could be coupled very easily thanks to the HLA support.}
 
 %-----------------------------------------------%
 \subsection{The Human Avatar}
@@ -603,7 +654,7 @@ In another project at TU Munich, a simulated kitchen environment is used
 to test and evaluate a plan recognition and monitoring system using the
 semantic camera of MORSE as a simulated object recognition system with
 a reactive robot control system.
-
+\serge{A missing reference ?}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
