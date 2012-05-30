@@ -57,7 +57,7 @@
     Universit{\'e} de Toulouse, UPS, INSA, INP, ISAE, LAAS,
     F-31077 Toulouse, France
     \and
-    Institute for Advanced Study, Technische Universit\"{a}t M\"{u}nchen, 
+    Institute for Advanced Study, Technische Universit\"{a}t M\"{u}nchen,
     Lichtenbergstrasse 2a, D-85748 Garching, Germany
     \and
     UMR 6072 GREYC Universit{\'e} de Caen-Basse Normandie/CNRS/ENSICAEN, France
@@ -315,7 +315,8 @@ scenario.
 The construction and configuration of a scenario is done with a set of Python
 classes provided by MORSE, known as the \emph{Builder API}. It completely hides
 the interface of Blender from the user, so that those unfamiliar with Blender
-can directly configure MORSE using Python scripts.
+can directly configure MORSE using Python scripts. Scripts can then be tracked
+on a version control system to follow changes and apply patches.
 The API offers classes to add robots, sensors and actuators, to position,
 rename and configure any of the parameters used by these components, to
 include additional objects (furniture, obstacles, etc.) and to add middleware
@@ -331,13 +332,13 @@ robotic project called
 its versatility and the facility to integrate it with
 existing architectures.
 
-The PROTEUS project supports a model-driven engineering approach based
-on a domain-specific language and a robotic
-ontology\cite{Dhouib:2011zr} and aims at providing a toolchain for robotic development from modeling to software simulation
-and deployment on real robots. PROTEUS is based on open-source
-softwares like the Eclipse Modeling Project, the ROS middleware and
-MORSE simulator.
-Several robots modeling are currently under construction (Wifibot, ECA Camelon, and Thales R-Trooper).
+The PROTEUS project supports a model-driven engineering approach based on a
+domain-specific language and a robotic ontology\cite{Dhouib:2011zr} and aims at
+providing a toolchain for robotic development from modeling to software
+simulation and deployment on real robots. PROTEUS is based on open-source
+softwares like the Eclipse Modeling Project, the ROS middleware and MORSE
+simulator. Several robots modeling are currently under construction (Wifibot,
+ECA Camelon, and Thales R-Trooper).
 
 %-----------------------------------------------%
 \subsection{Adjustable Levels of Realism}
@@ -370,7 +371,7 @@ avoiding image processing algorithms.
 The same is true for actuators, which offer the choice between controlling the
 speeds of wheels independently, controlling the motion of the robot as a whole
 with linear and angular velocities, giving direct waypoint coordinates for
-destination (even using a very basic obstacle avoidance mechanism), or 
+destination (even using a very basic obstacle avoidance mechanism), or
 ``teleporting'' a robot to the desired location.
 
 This flexibility permits scientists to focus on specific problems, instead of
@@ -475,7 +476,7 @@ without modifying the code in either the original architecture or MORSE.
 \label{section:multinode}
 
 The simulation of multiple robots in the complex environments permitted by
-MORSE is very demanding on computational and graphics resources. 
+MORSE is very demanding on computational and graphics resources.
 A scenario with several robots, video cameras and
 other sensors, plus the robotics software all running on the same computer will
 slow down the system considerably. MORSE offers the possibility of running
@@ -506,7 +507,7 @@ relay, and helping victims directly.
 For this project, two or three robots can be handled by a single simulation
 node, and synchronised with those in other nodes. The communication between the
 robots is handled outside the simulation, using specific sensors to simulate
-loss of connectivity due to occlusion or distance between the robots. 
+loss of connectivity due to occlusion or distance between the robots.
 The victims to be saved are internally considered as robots with scripted
 behaviour, so that their status and position is also synchronised by the
 multi-node manager.
@@ -534,7 +535,7 @@ environment with a simulated robot. Therefore the human avatar of the MORSE
 simulator has been equipped with an intuitive control that enables users to act
 upon the simulated environment. Inspired by modern 3D-computer games, the user
 takes a third-person perspective behind the human avatar to move around like
-shown in Fig.~\ref{fig:human_control} on the left. 
+shown in Fig.~\ref{fig:human_control} on the left.
 While moving around, the camera tries to avoid the objects and walls placed
 between the camera and the human avatar to prevent occlusions.  All objects
 that can be interacted with can be displayed by pressing a key on the
@@ -544,7 +545,7 @@ perspective and offers an interface showing possible actions the
 user can take when pointing to specific objects, as shown in Fig.~
 \ref{fig:human_control} on the right. Those actions at the moment include
 picking up and releasing objects, opening and closing drawers and cupboards and
-switching on and off specific objects like a light or an oven. 
+switching on and off specific objects like a light or an oven.
 
 \begin{figure}[ht!]
 \centering
@@ -587,20 +588,20 @@ system and avoiding the processing costs.
 
 
 An example use case in this scenario is the testing and validation of human-aware
-navigation planners of service robots in human-centred environments at TU Munich. 
+navigation planners of service robots in human-centred environments at TU Munich.
 In this case, a simulated human tracking system provides the human pose to the
 robot while the robot navigates in the environment in a way that is safe and
 legible for the human. In this project, MORSE has not only been used as a
 powerful tool for testing human-aware navigation strategies before carrying out
-experiments with real humans. It was also used for their evaluation as 
-Lichtenth{\"a}ler et al. show in \cite{lichtenthaeler2012increasing} by 
-video-based user studies. After successful testing and evaluation, the 
-human-aware navigation was applied using real robots and humans resulting in 
+experiments with real humans. It was also used for their evaluation as
+Lichtenth{\"a}ler et al. show in \cite{lichtenthaeler2012increasing} by
+video-based user studies. After successful testing and evaluation, the
+human-aware navigation was applied using real robots and humans resulting in
 a safe and reliable behaviour of the robot.
 
 In another project at TU Munich, a simulated kitchen environment is used
-to test and evaluate a plan recognition and monitoring system using the 
-semantic camera of MORSE as a simulated object recognition system with 
+to test and evaluate a plan recognition and monitoring system using the
+semantic camera of MORSE as a simulated object recognition system with
 a reactive robot control system.
 
 
