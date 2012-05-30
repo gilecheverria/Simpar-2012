@@ -174,8 +174,8 @@ and coordinates the events in the BGE, and a collection of components that
 can be used to assemble a robot with sensors and actuators.
 A variety of communication tools allow each of the MORSE components to connect
 with external robotics software through middlewares.
-MORSE has support for some of the most commonly used robotics middlewares,
-including ROS \cite{ros-288}, Pocolibs and YARP \cite{metta|ars06}.
+MORSE has support for some of the most commonly used robotics
+middlewares nowadays, including ROS \cite{ros-288}, Pocolibs and YARP \cite{metta|ars06}.
 Other middlewares are constantly being added, mainly driven by the needs of new
 users. This process is simple, as existing middleware bindings can be used as a
 template for the new ones.
@@ -281,12 +281,12 @@ that can be used to construct robots with various configurations. The
 components are classified as:
 
 \begin{itemize}
-  \item Robots in MORSE do nothing by themselves, only define the physical
+  \item Robots in MORSE have no behaviours. They are only define by a physical
     shape and properties like mass, friction and collision bounds, which are
     then used by the Bullet physics library to compute the interactions with the
     environment.
     In MORSE, all sensors and actuators must be attached to a robot in order to
-    function
+    function.
   \item Sensors recover data from the simulated world and store it. This is
     done using the Blender predefined interfaces for the BGE and Python scripts.
     For example, a GPS will read the absolute coordinates of the sensor in the
@@ -326,8 +326,9 @@ bindings, modifiers and services for each component.
 %in the simulation.
 
 MORSE has been chosen as the simulator platform for a french research
-robotic project called \emph{ANR-PROTEUS}\footnote{\url{http://anr-proteus.fr/}}
-project, thanks to its versatility and the facility to integrate it with
+robotic project called
+\emph{ANR-PROTEUS}\footnote{\url{http://anr-proteus.fr/}}, thanks to
+its versatility and the facility to integrate it with
 existing architectures.
 
 The PROTEUS project supports a model-driven engineering approach based
@@ -436,9 +437,9 @@ Besides the existing variety of components and middlewares available, it is
 further possible to adapt these elements to better fit an existing
 architecture and allow true ``software-in-the-loop'' functionality.
 
-MORSE components provide certain interfaces to input/output data from them. In
+MORSE components provide dedicated I/O interface. In
 many cases, the interface methods will not be the same as those used in an
-existing architecture, although the component has the same functionality.
+actual device, although the component has the same functionality.
 For instance, an actuator may have two separate functions to modify its linear
 and angular velocities, while the corresponding MORSE component uses only one
 function with the two parameters. To avoid creating additional components,
