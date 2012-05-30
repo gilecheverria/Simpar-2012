@@ -941,7 +941,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.79439254"
-     inkscape:cx="461.18558"
+     inkscape:cx="481.8823"
      inkscape:cy="171.05954"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -1881,46 +1881,46 @@
     <text
        xml:space="preserve"
        style="font-size:26.74230194px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;fill:#000000;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Sans"
-       x="343.25458"
+       x="348.94958"
        y="-102.94472"
        id="text2848-2"
        transform="scale(0.99467887,1.0053496)"
        sodipodi:linespacing="125%"><tspan
          id="tspan4666"
          sodipodi:role="line"
-         x="343.25458"
+         x="348.94958"
          y="-102.94472"
          style="font-size:26.74230194px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono">Modifiers</tspan><tspan
          sodipodi:role="line"
-         x="343.25458"
+         x="348.94958"
          y="-69.516838"
          style="font-size:26.74230194px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
          id="tspan3293">(optional)</tspan></text>
     <rect
        y="-137.1445"
-       x="467.90469"
+       x="485.52823"
        height="357.44855"
-       width="231.46559"
+       width="213.84206"
        id="rect2820-5-3"
        style="color:#000000;fill:none;stroke:#000000;stroke-width:0.99999982;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
     <text
        xml:space="preserve"
        style="font-size:26.74230194px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;fill:#000000;fill-opacity:1;stroke:none;font-family:Ubuntu;-inkscape-font-specification:Sans"
-       x="586.55078"
+       x="595.84064"
        y="-102.53024"
        id="text2848-2-7"
        transform="scale(0.99467887,1.0053496)"
        sodipodi:linespacing="125%"><tspan
          id="tspan4666-9"
          sodipodi:role="line"
-         x="586.55078"
+         x="595.84064"
          y="-102.53024"
          style="font-size:26.74230194px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono">Middleware</tspan><tspan
          sodipodi:role="line"
-         x="586.55078"
+         x="595.84064"
          y="-69.102364"
          style="font-size:26.74230194px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
-         id="tspan3295">serialisation</tspan></text>
+         id="tspan3295">connectors</tspan></text>
     <rect
        transform="matrix(0,1,-1,0,0,0)"
        y="-189.99934"
@@ -1989,7 +1989,7 @@
        y="-137.1445"
        x="240.72586"
        height="357.44855"
-       width="201.41739"
+       width="212.7468"
        id="rect2820-5-3-2"
        style="color:#000000;fill:none;stroke:#000000;stroke-width:0.99999982;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
     <g
