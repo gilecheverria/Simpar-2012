@@ -11,8 +11,8 @@
 \newcommand{\TODO}[1]{\textbf{TODO:} \emph{#1} }
 \newcommand{\NOTE}[1]{\textbf{NOTE:} \emph{#1} }
 % Uncomment the following lines to remove TODO and NOTE labels
-\renewcommand{\TODO}[1]{}
-\renewcommand{\NOTE}[1]{}
+%\renewcommand{\TODO}[1]{}
+%\renewcommand{\NOTE}[1]{}
 
 \def\genom{G\textsuperscript{en}oM~}
 
@@ -92,63 +92,66 @@
 \maketitle
 
 \begin{abstract}
-  MORSE is a robotics simulation software developed with the collaboration of
-  researchers in several universities. It is a tool to test robotics software
-  and algorithms in fairly complex environments. The simulations allow a medium
-  to high level of abstraction, to enable researchers to focus on the solution
-  of complex tasks.  This is accomplished by connecting directly with the
-  robotics software using various existing middlewares, such as ROS, YARP and
-  others.
-  MORSE makes use of the Blender 3D software to produce realistic looking
-  environments with physics simulation.  After three years of development,
-  MORSE is a mature tool with a large collection of components.
-  It has been developed with the interest of simplifying its integration with
-  any robotics architecture used, and thus provides many innovative features:
-  ``software-in-the-loop'' connectivity, multiple middleware support,
-  configurable components, varying levels of simulation realism, distributed
-  multi-node simulation for complex scenes and a human avatar that can interact
-  with the robots in the virtual environments.
-  We present in this paper the current state of the simulator, highlighting
-  its unique features with examples of the use cases where it has been used to
-  validate several robotics experiments.
+  MORSE is a robotics simulation software developed by roboticists from several
+  laboratories and universities. It is a framework to evaluate robotics
+  algorithms and their integration in fairly complex environments, thanks to the
+  use of the Blender 3D software which brings realistic rendering and physics
+  simulation. The simulations can be specified at various levels of abstraction,
+  enabling researchers to focus on the evaluation of developments covering a
+  wide range of functionalities, from low level processes to the integration of
+  a whole suite of processes. MORSE enables the evaluation of the code that is
+  to be embedded on-board real robots: this is accomplished by connecting
+  directly with the robotics software using various existing middlewares, such
+  as ROS, YARP and others. After nearly three years of development, MORSE is a
+  mature tool with a large collection of components, that provides many
+  innovative features: ``software-in-the-loop'' connectivity, multiple
+  middleware support, configurable components, varying levels of simulation
+  abstraction, distributed implementation for large scale multi-robot
+  simulations and a human avatar that can interact with robots in virtual
+  environments. This paper presents the current state of MORSE, highlighting its
+  unique features with various use cases.
 \end{abstract}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 \label{section:introduction}
 
-Computer simulations are today an essential component in robotics research.
-Almost every sort of experiment can be validated in simulation before executing
-it on real robots.  For this validation to be useful, the simulation must
+Simulations are an essential component in robotics research, allowing the
+evaluation and validation of many sorts of developments before their integration
+on-board real robots.  For such validations to be useful, the simulation must
 provide enough fidelity with respect to the real world, within the requirements
-of the experimentation.
-Creating a fully realistic simulation would be near impossible, since there are
-too many aspects that it would need to handle. This is why there are many
-simulators with various capacities, each one created to comply with specific
-requirements.
+of the considered robotics application. Creating a fully realistic simulation in
+every aspect remains nearly impossible, and therefore numerous simulators are
+focussed on a given specific aspect ({\em e.g.} terramechanics to study
+locomotion, contact forces to study manipulation, realistic photo-rendering to
+study vision algorithms...).
 
-The MORSE simulator we present here is meant as a tool that can be used to test
-and evaluate very complex robots performing advanced missions in real life
-environments. It does not focus on lower level control of the robot, or the
-specific mechanics of its components. In turn, it can provide all the
-functionality necessary to evaluate the algorithms that control a robot during
-the execution of a mission. This is ideal for testing mission plans, high level
-control and multi robot coordination.
+The MORSE simulator presented here is not targeted to the study of a specific
+domain of robotics, but is rather meant as a tool that can be used to test and
+evaluate {\em integrated robots}, {\em i.e.} the suite of processes required to
+autonomously achieve complex missions. Using Blender to simulate photo-realistic
+3D worls and the associated physics engine, it brings enough realism to evaluate
+complete sets of software components within a wide range of application contexts.
 
-The outline of this paper is as follows. Section~\ref{section:othersims}
-reviews other robotics simulators with a similar design and use as MORSE.
-Section~\ref{section:overview} explains the main design principles of MORSE.
-Section~\ref{section:features} is the main part of the article, presenting the
-unique features of MORSE, exemplified with the projects for which they were
-developed. Finally Section~\ref{section:discussion} gives the conclusion and
-future plans for the simulator.
+\NOTE{Simon finds the intro too poor as it is now: here one or two short
+  paragraphs tha highlight the specificities of Morse should be written.}
+
+MORSE is developed as an open--source project with a BSD 3-clause license. User
+documentation and additional information are available at
+(\url{http://morse.openrobots.org}), and the source code can be downloaded from
+(\url{http://github.com/laas/morse.git})
+
+The outline of this paper is as follows. Section~\ref{section:othersims} reviews
+other comparable robotics simulators, and section~\ref{section:overview}
+introduces the main design principles of MORSE. Section~\ref{section:features}
+is the main part of the article: it depicts the main unique features of MORSE,
+each being exemplified with the projects for which they were developed. Finally
+Section~\ref{section:discussion} gives the conclusion and future plans for the
+simulator.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Competing Simulators}
+\section{Related work}
 \label{section:othersims}
-
-A number of other robotics simulators are available, both commercial and
-free. We evaluate here the ones whose functionality is most similar to MORSE:
 
 The Player/Stage/Gazebo\cite{psg-1232} is a well known robotics suite.
 It is a full set of tools that include the Player communication layer
@@ -180,7 +183,7 @@ must then be converted and transferred to the final robot platform.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{MORSE Architecture Overview}
+\section{MORSE architecture overview}
 \label{section:overview}
 
 % Morse \cite{5980252}
@@ -262,7 +265,7 @@ scripts.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Innovative Features}
+\section{Morse main features}
 \label{section:features}
 
 
@@ -663,7 +666,7 @@ a reactive robot control system.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Summary and Future Work}
+\section{Summary and future work}
 \label{section:discussion}
 
 We have presented the new features developed on the MORSE simulator,
@@ -691,11 +694,6 @@ Further integration with motion reading devices, such as Microsoft Kinect can
 also make the experience more natural, by allowing a finer control over the
 human avatar.
 
-MORSE is developed as an open--source project with a BSD 3-clause license.
-User documentation and additional information is also available at:
-(\url{http://morse.openrobots.org})
-The source code can be downloaded from the GIT repository:
-(\url{http://github.com/laas/morse.git})
 
 \subsubsection*{Acknowledgments}
 This work has been partially supported by the DGA funded Action project
