@@ -311,35 +311,32 @@ environment created from DEM data.
 \label{section:components}
 
 MORSE provides a collection of components that can be used to construct robots
-with various configurations. The components are classified as:
+with various configurations.
+\emph{Sensors} recover data from the simulated world and store it. This is
+done using the Blender predefined interfaces for the BGE and Python scripts.
+For example, GPS read the absolute coordinates of the sensor in the
+Blender world, laser scanners use ray tracing operations to detect
+obstacles and cameras use renders from the perspective of the camera to
+produce images. Parameters that determine how the sensors gather data can
+be adjusted, such as range, resolution, image sizes, etc.
 
-\begin{itemize}
-  \item Robots in MORSE have no behaviors. They are only define by a physical
-    shape and properties like mass, friction and collision bounds, which are
-    then used by the Bullet physics library to compute the interactions with the
-    environment.
-    In MORSE, all sensors and actuators must be attached to a robot in order to
-    function.
-    %\serge{Are robots really components ?} \gilberto{Internally they are handled the same as other components, but they don't have associated actions at the moment}
-  \item Sensors recover data from the simulated world and store it. This is
-    done using the Blender predefined interfaces for the BGE and Python scripts.
-    For example, GPS read the absolute coordinates of the sensor in the
-    Blender world, laser scanners use ray tracing operations to detect
-    obstacles and cameras use renders from the perspective of the camera to
-    produce images. Parameters that determine how the sensors gather data can
-    be adjusted, such as range, resolution, image sizes, etc.
-  \item Actuators carry out actions within the simulated
-    world. They provide motion to the robots through several
-    methods and algorithms, or control moving parts such as robotic arms or
-    pan-tilt units. In most cases, the motions are implemented using the
-    functions in Blender to add a certain linear and angular speed to an
-    object.
-    Robotic arms consist on a series of articulated segments, and use the
-    Blender armature system to determine the degrees of freedom at each joint.
-    They can be operated either by direct control of the angles at each joint
-    or by control of the end effector with Inverse Kinematics (using iTaSC
-    \cite{iTaSC}, a constraints-based IK solver available for the BGE).
-\end{itemize}
+\emph{Actuators} carry out actions within the simulated
+world. They provide motion to the robots through several
+methods and algorithms, or control moving parts such as robotic arms or
+pan-tilt units. In most cases, the motions are implemented using the
+functions in Blender to add a certain linear and angular speed to an
+object.
+Robotic arms consist on a series of articulated segments, and use the
+Blender armature system to determine the degrees of freedom at each joint.
+They can be operated either by direct control of the angles at each joint
+or by control of the end effector with Inverse Kinematics (using iTaSC
+\cite{iTaSC}, a constraints-based IK solver available for the BGE).
+
+\emph{Robots} are the platform upon which all sensors and actuators must be mounted in
+order to function. They currently have no behavior of their own, but define the
+physical shape and properties like mass, friction and collision bounds
+used by the Bullet physics library to compute the interactions with
+the environment.
 
 The component library also includes other objects that can be used in the
 simulation, from large outdoors environments, to furniture and small items.
@@ -377,6 +374,10 @@ rigid box sliding over the ground (iRobot ATRV) when the details of the motion
 of the robot are not important. For aerial and submarine robots the
 physics are limited to collision detection, but they are not affected by
 gravity, and there is no simulation of air or wind currents.
+The associated actuators offer the choice between controlling the
+speeds of wheels independently, controlling the motion of a robot as a whole
+with linear and angular velocities, giving direct waypoint coordinates for
+destination or ``teleporting'' a robot to the desired location.
 
 Some sensors provide almost identical raw data as their real counterparts,
 which can then be processed to extract relevant information,
@@ -392,11 +393,6 @@ camera} uses Blender functions to determine the names and global 3D position of
 the objects within the view frustum of the camera. It outputs this data and
 avoids two steps of processing, making the simulation (up to 100\%) faster and
 avoiding image processing algorithms.
-
-In turn, actuators offer the choice between controlling the
-speeds of wheels independently, controlling the motion of the robot as a whole
-with linear and angular velocities, giving direct waypoint coordinates for
-destination or ``teleporting'' a robot to the desired location.
 
 This flexibility permits scientists to focus on specific problems, by 
 simplifying some tasks and isolating the algorithms of interest.
@@ -574,8 +570,8 @@ multi-node manager.
 Additionally, the multi-node system permits the deployment of hybrid
 simulations. A 3D environment that closely represents the real experimentation
 site is used. Real life robots report their updated positions to the multi-node
-server, and this last one changes the position of a dummy robot representation
-in simulation, so that other simulated robots can see it and interact with it.
+server, which reflects the changes on a dummy robot 
+in the simulation, so that other simulated robots can see it and interact with it.
 In the Action project, a real land robot moves around while the simulated
 helicopter can follow it using video cameras.
 The robots communicate in the same way they do either in full simulation or in
@@ -624,7 +620,7 @@ The motions of the avatar are animated using Blender %functionality such as
 armatures, Inverse Kinematics, and predefined movement loops.
 The avatar can be controlled much like a character in a videogame, using either
 the mouse and keyboard or a combination of the Microsoft Kinect and the
-Nintendo Wiimote. This computer-game like control enables users to perform
+Nintendo Wiimote. This enables users to perform
 pick and place actions in simulated worlds while at the same time the
 simulated robot(s) can be controlled through the supported robotic middlewares.
 
