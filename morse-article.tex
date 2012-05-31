@@ -176,13 +176,13 @@ into the ROS platform, and has thus become the most commonly used robotics
 simulator. It integrates very well with ROS and Player, but connectivity with
 other middlewares requires additional programming.
 
-The USARSim (Unified System for Automation and Robot Simulation)\cite{usarsim-4209284} shares many design concepts with MORSE. It
+The Unified System for Automation and Robot Simulation (USARSim)\cite{usarsim-4209284} shares many design concepts with MORSE. It
 was initially developed as a simulator for search and rescue operations, uses
 the Unreal Engine gaming platform and is built with the concept of modular
 components. It is widely used as an evaluation tool for the well known RoboCup
 competitions. However, it uses an adhoc interface to communicate with external
 software and does not support some of the most common robotics
-middlewares. USARSim use the Unreal Development Kit (UDK) that is a closed-source library and is not
+middlewares. The Unreal Development Kit (UDK) used is a closed-source library and is not
 available on every platform.
 
 Another popular robotics simulator is Webots \cite{Webots04}, which is a
@@ -223,10 +223,10 @@ Other middlewares are constantly being added, mainly driven by the needs of new
 users. This process is simple, as existing middleware bindings can be used as a
 template for the new ones.
 
-MORSE aims to provide a simulation where complex robots can fully
-carry out missions in large scale environments.
-It does not intend to achieve super realistic simulation of each individual
-component, but a useful approximation of the behavior of the whole ensemble.
+%MORSE aims to provide a simulation where complex robots can fully
+%carry out missions in large scale environments.
+%It does not intend to achieve super realistic simulation of each individual
+%component, but a useful approximation of the behavior of the whole ensemble.
 MORSE sensors and actuators are minimalistic in their functionality and completely
 middleware agnostic. They can provide the same data as their real
 world counterparts, but some of them have multiple variants that can work
@@ -284,17 +284,18 @@ increasing the range of elements that can be used.
 The high level of graphical detail is specially useful for realistic looking
 simulations, and very important when doing image processing from simulated
 video cameras.
-To provide a simulation that is closer to the real life experiments, we have
-sought to create detailed models of the buildings and terrain where the
-experimentations are carried out. Using Blender it is straightforward to
-transform the 2D plan of a building into a 3D model. However, outdoor terrains
-for experiments in \emph{field robotics} are more difficult to create by hand.
-We have developed additional plug-ins for Blender that can read Digital
-Elevation Map (DEM) files and create the appropriate 3D meshes. Additionally using aerial
-photography for textures creates simulated environments that are very similar
-to the real ones. Figure~\ref{fig:models} shows the modeling capabilities of
-Blender being used to create the MORSE robots and an environment created from
-DEM data.
+To make a simulations closer to real life experiments, it is necessary
+to create detailed models of the buildings and terrain where the
+experimentations are carried out.
+Transforming the 2D plan of a building into a 3D model is straightforward in
+Blender. However, outdoor terrains for experiments in \emph{field robotics} are
+more difficult to create by hand.
+We have developed additional plug-ins for Blender that read Digital Elevation
+Map (DEM) files and create the appropriate 3D meshes. Adding normal maps and
+aerial photography for textures creates simulated environments that are very
+similar to the real ones. Figure~\ref{fig:models} shows the modeling
+capabilities of Blender being used to create the MORSE robots and an
+environment created from DEM data.
 
 \begin{figure}[ht!]
 \centering
@@ -332,17 +333,17 @@ components are classified as:
     obstacles and cameras use renders from the perspective of the camera to
     produce images. Parameters that determine how the sensors gather data can
     be adjusted, such as range, resolution, image sizes, etc.
-  \item Actuators are charged with carrying out actions within the simulated
-    world. There are actuators to provide motion to the robots through several
-    methods and algorithms, or to control moving parts such as robotic arms or
+  \item Actuators carry out actions within the simulated
+    world. They provide motion to the robots through several
+    methods and algorithms, or control moving parts such as robotic arms or
     pan-tilt units. In most cases, the motions are implemented using the
     functions in Blender to add a certain linear and angular speed to an
     object.
     Robotic arms consist on a series of articulated segments, and use the
     Blender armature system to determine the degrees of freedom at each joint.
     They can be operated either by direct control of the angles at each joint
-    or by control of the end effector with Inverse Kinematics (using the iTaSC
-    \cite{iTaSC}, an constraints-based IK solver available for the BGE).
+    or by control of the end effector with Inverse Kinematics (using iTaSC
+    \cite{iTaSC}, a constraints-based IK solver available for the BGE).
 \end{itemize}
 
 The component library also includes other objects that can be used in the
@@ -352,10 +353,11 @@ scenario.
 
 Building and configuration of scenarios are done with a set of Python
 classes provided by MORSE, known as the \emph{Builder API}. 
-Builder API provides an internal domain-specific language (DSL) that completely hides
-the somewhat complex interface of Blender from the user, so that those unfamiliar with Blender
-can directly configure MORSE using Python scripts. Scripts can then be tracked
-on a version control system to follow changes and apply patches.
+Builder API provides an internal domain-specific language (DSL) that completely
+hides the somewhat complex interface of Blender from the user, so that those
+unfamiliar with Blender can directly configure MORSE using Python scripts.
+Scripts can then be tracked on a version control system to follow changes and
+apply patches.
 The API offers classes to add robots, sensors and actuators, to position,
 rename and configure any of the parameters used by these components, to
 include additional objects (furniture, obstacles, etc.) and to add middleware
@@ -412,9 +414,9 @@ emergency landing. MORSE video camera sensors are used to feed the raw image dat
 into the land mapping algorithm.
 On a second scenario~\cite{carvalho2012}, a POMDP model is used to optimize the
 probability to track and intercept an identified target among others. As the
-objective of simulations is to evaluate the optimized strategy, processing
+objective is to evaluate the optimized strategy, processing
 simulated images is not necessary. Hence, instead of using a video camera
-sensor, they use the ``semantic camera'' to get the location of the target,
+sensor, they use the \emph{semantic camera} to get the location of the target,
 adding some noise with modifiers to simulate both the sensor and the detection
 and identification process.
 \serge{Too much and here ...}
@@ -446,8 +448,8 @@ Information exchange between the simulator and the robotics software can be
 done by a constant data stream, or via request/reply interfaces.
 
 MORSE permits using many different middlewares within a single simulation
-scenario. This is exemplified in the \emph{Action project} \cite{6106782}
-developed by the LAAS and ONERA labs.
+scenario with heterogeneous systems. This is exemplified in the \emph{Action
+project} \cite{6106782} developed by the LAAS and ONERA labs.
 It consists in the cooperation of ground and air robots to patrol a zone,
 locate and follow moving targets.
 Each lab provides an existing robotics platform with very different
@@ -455,19 +457,6 @@ architectures: LAAS employs Segway RMP 400 land robots, using the \genom
 \cite{MALLET-2011-599677} architecture, while ONERA works with Yamaha R-Max
 helicopters based on Orocos \cite{orocos2003}. The simulation uses Pocolibs to
 communicate with \genom, and YARP to talk with OROCOS.
-
-MORSE has been chosen as the simulator platform for a French research
-robotic project called
-\emph{ANR-PROTEUS}\footnote{\url{http://anr-proteus.fr/}}, thanks to
-its middlewares versatility and the facility to integrate it with
-existing architectures.
-The PROTEUS project supports a model-driven engineering approach based on a
-domain-specific language and a robotic ontology\cite{Dhouib:2011zr} and aims at
-providing a toolchain for robotic development from modeling to software
-simulation and deployment on real robots. PROTEUS is based on open-source
-softwares like the Eclipse Modeling Project, the ROS middleware and MORSE
-simulator. Several robot models are currently under construction (Wifibot,
-ECA Camelon, and Thales R-Trooper).
 
 %The use of simulation is particularly beneficial for this project, since the trials
 %are done in a very specific environments, and require transporting the robots a
@@ -480,6 +469,20 @@ ECA Camelon, and Thales R-Trooper).
 %robots required for these stages are not currently available, but simulation
 %permits for testing of these scenarios in advance.
 
+MORSE has been chosen as the simulator platform for a French research
+robotic project called \emph{ANR-PROTEUS}, thanks to
+\gilberto{Removed footnote with PROTEUS website, since it is given in the acknowledgments}
+its middlewares versatility and the facility to integrate it with
+existing architectures.
+The PROTEUS project supports a model-driven engineering approach based on a
+domain-specific language and a robotic ontology\cite{Dhouib:2011zr} and aims at
+providing a toolchain for robotic development from modeling to software
+simulation and deployment on real robots. PROTEUS is based on open-source
+softwares like the Eclipse Modeling Project, the ROS middleware and MORSE
+simulator. Several robot models are currently under construction (Wifibot,
+ECA Camelon, and Thales R-Trooper).
+\gilberto{These would need references, but there is no space left}
+
 %-----------------------------------------------%
 \subsection{Component Overlays for Specific Software Architectures}
 \label{section:overlays}
@@ -489,16 +492,17 @@ ECA Camelon, and Thales R-Trooper).
 %\serge{Component overlays could be seen as an implementation of the
 %  adapter Pattern: \url{https://en.wikipedia.org/wiki/Adapter_pattern}}
 
-Besides the existing variety of components and middlewares available, it is
+Besides the components and middlewares already available, it is
 further possible to adapt these elements to better fit an existing
 architecture and allow true \emph{software-in-the-loop} functionality.
-
 MORSE components provide dedicated I/O interfaces. In
 many cases, the interface methods will not be the same as those used in an
 actual device, although the component has the same functionality.
 For instance, an actuator may have two separate functions to modify its linear
 and angular velocities, while the corresponding MORSE component uses only one
-function with the two parameters. To avoid creating additional components,
+function with the two parameters.
+
+To avoid creating additional components,
 MORSE implements the notion of \emph{component overlays}. Following
 the well-known adapter pattern, they are implemented as
 special components that override (or wrap) the default
@@ -509,7 +513,6 @@ functions as extra scripts, specific for single components.
 Overlays are implemented as Python scripts that provide an interface between
 the real component being simulated and the equivalent sensor available in
 MORSE.
-
 These features have been used to connect MORSE with an existing
 Unmanned Aerial Vehicle (AUV) control architecture~\cite{barbier2011}
 without modifying the code in either the original architecture or MORSE.
@@ -543,7 +546,7 @@ coordinated by a central server program, called the \emph{multi-node
 manager}. This manager has been implemented using TCP/IP socket communication,
 and also using High Level Architecture (HLA) \cite{Kuhl:1999:CCS:318931} for
 more strict time management.
-While all nodes show all of the robots, each node will only
+While every node shows all of the robots, each node will only
 be in charge of controlling a limited number of robots. The movements
 of robots and specific objects in one node are sent to the multi-node
 manager, which in turn collects the updated positions across all nodes
@@ -617,15 +620,14 @@ switching on and off specific objects like a light or an oven.
  \includegraphics[width=0.475\textwidth]{pics/human_control_1.png} &
  \includegraphics[width=0.475\textwidth]{pics/human_control_2.png}
 \end{tabular}
-\caption{The left picture shows a third-person view of the human component that
-    is used to navigate in the environment. Here objects, that the human can
-    interact with, are displayed. The right picture shows the first-person
-    perspective of the human avatar that indicates a possible
-    ``pick-up-action'' with the bread.}
+\caption{Left: third-person view of the human component that is used to
+    navigate in the environment, displaying the names of objects that the human
+    can interact with. Right: first-person perspective of the human avatar that
+    indicates a possible ``pick-up-action'' with the bread.}
 \label{fig:human_control}
 \end{figure}
 
-The motions of the avatar are animated using Blender functionality such as
+The motions of the avatar are animated using Blender %functionality such as
 armatures, Inverse Kinematics, and predefined movement loops.
 The avatar can be controlled much like a character in a videogame, using either
 the mouse and keyboard or a combination of the Microsoft Kinect and the
@@ -649,7 +651,6 @@ done realistically, with the associated computational cost and uncertainties.
 Alternatively, the avatar can directly export the position of all of its
 joints, and feed them back to the robot, simulating a full motion capture
 system and avoiding the processing costs.
-
 
 An example use case in this scenario is the testing and validation of human-aware
 navigation planners of service robots in human-centered environments at TU Munich.
