@@ -94,7 +94,7 @@
 
 \begin{abstract}
   MORSE is a robotics simulation software developed by roboticists from several
-  laboratories and universities. It is a framework to evaluate robotics
+  research laboratories. It is a framework to evaluate robotics
   algorithms and their integration in fairly complex environments, thanks to the
   use of the Blender 3D software which brings realistic rendering and physics
   simulation. The simulations can be specified at various levels of abstraction,
@@ -122,25 +122,27 @@ evaluation and validation of many sorts of developments before their integration
 on-board real robots.  For such validations to be useful, the simulation must
 provide enough fidelity with respect to the real world, within the requirements
 of the considered robotics application. Creating a fully realistic simulation in
-every aspect remains nearly impossible, and therefore numerous simulators are
+every aspect remains nearly impossible and sometimes can also be seen
+as an inconvenience. Therefore numerous simulators are
 focussed on a given specific aspect ({\em e.g.} terramechanics to study
 locomotion, contact forces to study manipulation, realistic photo-rendering to
-study vision algorithms...).
+study vision algorithms, ...).
 
 The MORSE simulator presented here is not targeted to the study of a specific
 domain of robotics, but is rather meant as a tool that can be used to test and
 evaluate {\em integrated robots}, {\em i.e.} the suite of processes required to
 autonomously achieve complex missions. Using Blender to simulate photo-realistic
-3D worls and the associated physics engine, it brings enough realism to evaluate
+3D worlds and the associated physics engine, it brings enough realism to evaluate
 complete sets of software components within a wide range of application contexts.
 
 \NOTE{Simon finds the intro too poor as it is now: here one or two short
   paragraphs tha highlight the specificities of Morse should be written.}
 
-MORSE is developed as an open--source project with a BSD 3-clause license. User
-documentation and additional information are available at
+MORSE \footnote{User documentation and additional information are available at
 (\url{http://morse.openrobots.org}), and the source code can be downloaded from
-(\url{http://github.com/laas/morse.git})
+(\url{http://github.com/laas/morse.git}). MORSE works on all major
+  software platform: win32, Linux and OS X.} is developed as an open--source project with a BSD 3-clause
+license.
 
 The outline of this paper is as follows. Section~\ref{section:othersims} reviews
 other comparable robotics simulators, and section~\ref{section:overview}
@@ -167,17 +169,20 @@ into the ROS platform, and has thus become the most commonly used robotics
 simulator. It integrates very well with ROS and Player, but connectivity with
 other middlewares requires additional programming.
 
-The USARSim \cite{usarsim-4209284} shares many design concepts with MORSE. It
+The USARSim (Unified System for Automation and Robot Simulation)\cite{usarsim-4209284} shares many design concepts with MORSE. It
 was initially developed as a simulator for search and rescue operations, uses
 the Unreal Engine gaming platform and is built with the concept of modular
 components. It is widely used as an evaluation tool for the well known RoboCup
-competitions. However, it uses a custom interface to communicate with external
-software and does not support some of the most common robotics middlewares.
+competitions. However, it uses an adhoc interface to communicate with external
+software and does not support some of the most common robotics
+middlewares. USARSim use the Unreal Development Kit (UDK) that is a closed-source library and is not
+available on every platform.
 
 Another popular robotics simulator is Webots \cite{Webots04}, which is a
 commercial product. It provides a full programming environment to create
 customised robots and environments, but its interface is complex to use when
 creating new components and robots.
+\serge{Why the interface is complex ?}
 It also has an integrated code editor, but the control programs created in it
 must then be converted and transferred to the final robot platform.
 
@@ -187,7 +192,8 @@ must then be converted and transferred to the final robot platform.
 \section{MORSE architecture overview}
 \label{section:overview}
 
-% Morse \cite{5980252}
+
+\serge{TODO: add a reference to the previous MORSE paper}
 
 MORSE is developed as a library of Python scripts that run on the Blender Game
 Engine (BGE).  The BGE offers a powerful environment for a graphical
@@ -208,9 +214,8 @@ Other middlewares are constantly being added, mainly driven by the needs of new
 users. This process is simple, as existing middleware bindings can be used as a
 template for the new ones.
 
-MORSE aims to provide a simulation where large and complex robots can fully
+MORSE aims to provide a simulation where complex robots can fully
 carry out missions in large scale environments.
-%\serge{This is not the purpose of every simulation engine ?}
 It does not intend to achieve super realistic simulation of each individual
 component, but a useful approximation of the behaviour of the whole ensemble.
 MORSE sensors and actuators can provide the same data as their real
@@ -240,9 +245,6 @@ to the components to be able to transmit/receive data through the middleware.
 The whole data flow in MORSE can be seen in the diagram of
 Fig.~\ref{fig:dataflow}.
 
-%\serge{Figure 1: Middlewares should be renamed as Middlewares
-%  connectors, Modifiers should be denote as optional.}
-
 \begin{figure}[ht!]
 \centering
     \includegraphics[width=0.7\textwidth]{pics/simulation_main_loop-may2012.png}
@@ -250,6 +252,8 @@ Fig.~\ref{fig:dataflow}.
     in Blender and the external robotics software}
 \label{fig:dataflow}
 \end{figure}
+
+\serge{Remove trailing local\_data in the picture ?}
 
 MORSE can be easily extended by adding new components that inherit from the
 existing base classes. All components are programmed in Python, since this is
@@ -288,9 +292,9 @@ experimentations are carried out. Using Blender it is straightforward to
 transform the 2D plan of a building into a 3D model. However, outdoor terrains
 for experiments in \emph{field robotics} are more difficult to create by hand.
 We have developed additional plug-ins for Blender that can read Digital
-Elevation Map (DEM) files and create the 3D mesh. Additionally using aerial
+Elevation Map (DEM) files and create the appropriate 3D meshes. Additionally using aerial
 photography for textures creates simulated environments that are very similar
-to the real ones.  Figure~\ref{fig:models} shows the modelling capabilities of
+to the real ones. Figure~\ref{fig:models} shows the modelling capabilities of
 Blender being used to create the MORSE robots and an environment created from
 DEM data.
 
@@ -322,6 +326,7 @@ components are classified as:
     environment.
     In MORSE, all sensors and actuators must be attached to a robot in order to
     function.
+    \serge{Are robots really components ?}
   \item Sensors recover data from the simulated world and store it. This is
     done using the Blender predefined interfaces for the BGE and Python scripts.
     For example, a GPS will read the absolute coordinates of the sensor in the
@@ -348,8 +353,9 @@ All of these can be imported from individual Blender files into a simulation
 scenario.
 
 Building and configuration of scenarios are done with a set of Python
-classes provided by MORSE, known as the \emph{Builder API}. It completely hides
-the interface of Blender from the user, so that those unfamiliar with Blender
+classes provided by MORSE, known as the \emph{Builder API}. 
+Builder API provides an internal domain-specific language (DSL) that completely hides
+the somewhat complex interface of Blender from the user, so that those unfamiliar with Blender
 can directly configure MORSE using Python scripts. Scripts can then be tracked
 on a version control system to follow changes and apply patches.
 The API offers classes to add robots, sensors and actuators, to position,
@@ -361,26 +367,13 @@ bindings, modifiers and services for each component.
 %started, it will use the parameters given to the components to produce the data
 %in the simulation.
 
-MORSE has been chosen as the simulator platform for a French research
-robotic project called
-\emph{ANR-PROTEUS}\footnote{\url{http://anr-proteus.fr/}}, thanks to
-its versatility and the facility to integrate it with
-existing architectures.
-The PROTEUS project supports a model-driven engineering approach based on a
-domain-specific language and a robotic ontology\cite{Dhouib:2011zr} and aims at
-providing a toolchain for robotic development from modelling to software
-simulation and deployment on real robots. PROTEUS is based on open-source
-softwares like the Eclipse Modelling Project, the ROS middleware and MORSE
-simulator. Several robot models are currently under construction (Wifibot,
-ECA Camelon, and Thales R-Trooper).
-
 %-----------------------------------------------%
 \subsection{Adjustable Levels of Realism}
 \label{section:realism}
 
 Many components come in several versions, which produce more or less
 realistic behaviour, and can be chosen depending on the objective of the
-simulation and the treatment that will be given to the data.
+simulation and processing that will be applied to the data.
 
 Land robots can consist of rigid bodies for chassis and wheels (Segway RMP 400
 and Pioneer 3-DX) using physics constraints to give realistic movement based on
@@ -390,7 +383,7 @@ of the robot are not important. For aerial and submarine robots the
 physics are limited to collision detection, but they are not affected by
 gravity, and there is no simulation of air or wind currents.
 
-Some sensors provide the same kind of raw data as their real counterparts,
+Some sensors provide almost identical raw data as their real counterparts,
 which can then be processed to extract relevant information,
 and later used to take decisions. When the processing of data is not of
 interest to the experiment, alternative sensors can be used that provide
@@ -426,6 +419,7 @@ simulated images is not necessary. Hence, instead of using a video camera
 sensor, they use the ``semantic camera'' to get the location of the target,
 adding some noise with modifiers to simulate both the sensor and the detection
 and identification process.
+\serge{Too much and here ...}
 
 %\serge{Semantic Camera and Components overlays should be emphasized as
 %  two new mechanisms of MORSE. Could we add more information on how
@@ -436,7 +430,7 @@ and identification process.
 %  very accurate physical model compared to the basic ones.}
 
 %-----------------------------------------------%
-\subsection {Middleware Configurations}
+\subsection{Middleware Configurations}
 \label{section:middlewares}
 
 Many research laboratories use different interfaces to communicate with their
@@ -448,7 +442,7 @@ necessary to communicate with the outside world.
 This separation means that any middleware can be integrated with MORSE, by
 simply providing the scripts to marshal MORSE data in the expected format.
 Middlewares currently supported include ROS, MOOS, Pocolibs, YARP and
-TCP/IP sockets.
+raw TCP/IP sockets.
 Information exchange between the simulator and the robotics software can be
 done by a constant data stream, or via request/reply interfaces.
 
@@ -463,6 +457,19 @@ architectures: LAAS employs Segway RMP 400 land robots, using the \genom
 helicopters based on Orocos \cite{orocos2003}. The simulation uses Pocolibs to
 communicate with \genom, and YARP to talk with OROCOS.
 
+MORSE has been chosen as the simulator platform for a French research
+robotic project called
+\emph{ANR-PROTEUS}\footnote{\url{http://anr-proteus.fr/}}, thanks to
+its middlewares versatility and the facility to integrate it with
+existing architectures.
+The PROTEUS project supports a model-driven engineering approach based on a
+domain-specific language and a robotic ontology\cite{Dhouib:2011zr} and aims at
+providing a toolchain for robotic development from modelling to software
+simulation and deployment on real robots. PROTEUS is based on open-source
+softwares like the Eclipse Modeling Project, the ROS middleware and MORSE
+simulator. Several robot models are currently under construction (Wifibot,
+ECA Camelon, and Thales R-Trooper).
+
 %The use of simulation is particularly beneficial for this project, since the trials
 %are done in a very specific environments, and require transporting the robots a
 %considerable distance, always being dependant on the prevailing weather.
@@ -473,7 +480,6 @@ communicate with \genom, and YARP to talk with OROCOS.
 %require the coordination of larger teams of heterogeneous robots. The physical
 %robots required for these stages are not currently available, but simulation
 %permits for testing of these scenarios in advance.
-
 
 %-----------------------------------------------%
 \subsection{Component Overlays for Specific Software Architectures}
@@ -494,9 +500,9 @@ actual device, although the component has the same functionality.
 For instance, an actuator may have two separate functions to modify its linear
 and angular velocities, while the corresponding MORSE component uses only one
 function with the two parameters. To avoid creating additional components,
-MORSE implements the notion of \emph{component overlays}. These are
-adapter patterns implemented as
-special pseudo components that override (or wrap) the default
+MORSE implements the notion of \emph{component overlays}. Following
+the well-known adapter pattern, they are implemented as
+special components that override (or wrap) the default
 behaviour to make it match a different architecture.
 In the case of middlewares, it is possible to either use the default
 serialization methods provided by MORSE, or write additional serialization
@@ -539,7 +545,7 @@ manager}. This manager has been implemented using TCP/IP socket communication,
 and also using High Level Architecture (HLA) \cite{Kuhl:1999:CCS:318931} for
 more strict time management.
 While all nodes show all of the robots, each node will only
-be charged with controlling a few robots. The movements
+be in charge of controlling a limited number of robots. The movements
 of robots and specific objects in one node are sent to the multi-node
 manager, which in turn collects the updated positions across all nodes
 and redistributes the information, so that all nodes can immediately
@@ -548,6 +554,8 @@ synchronising the time and events across all nodes. It can also be used
 to slow down the simulation in all nodes, by making them wait for the
 synchronisation message. However, at the current time it is not possible to
 accelerate the simulation speed.
+\serge{How you could accelerate the time without compromising the
+  quality ?}
 
 This functionality was developed for applications that require a large amount
 of robots. Our use case is another outdoors robotics project: \emph{Rosace}
@@ -577,12 +585,9 @@ helicopter can follow it using video cameras.
 The robots communicate in the same way they do either in full simulation or in
 real life. The use of HLA makes it possible to synchronise the heterogeneous
 systems in both the simulated and the real world.
-The real robots are not able to ``see'' the simulated ones with their cameras.
-In this experiment that is not necessary, since even in real life the land
+The real robots are not able to ``see'' the simulated ones with their
+cameras, but this is not a burden, since even in real life the land
 robot is not capable of seeing the helicopter.
-
-%\serge{Maybe this paragraph should emphasized that heterogenous physical simulations
-  %could be coupled very easily thanks to the HLA support.}
 
 %-----------------------------------------------%
 \subsection{The Human Avatar}
@@ -676,6 +681,7 @@ The design and architecture of MORSE has proved to be flexible and powerful
 enough to allow researchers to use it under various circumstances to test their
 robotics algorithms. The development process is simple, and users can customise
 many features according to their needs.
+\serge{Why the dev process is simple ?}
 All new developments done on top of MORSE are made available to the whole
 community, thanks to the open source licence of the simulator.
 
@@ -694,7 +700,8 @@ from Blender, with some separation of the images produced for the two eyes.
 Further integration with motion reading devices, such as Microsoft Kinect can
 also make the experience more natural, by allowing a finer control over the
 human avatar.
-
+Another planned work is to be able to couple MORSE simulations with
+other physical simulation engines thanks to the HLA support.
 
 \subsubsection*{Acknowledgments}
 This work has been partially supported by the DGA funded Action project
