@@ -105,7 +105,7 @@
   directly with the robotics software using various existing middlewares, such
   as ROS, YARP and others. After nearly three years of development, MORSE is a
   mature tool with a large collection of components, that provides many
-  innovative features: ``software-in-the-loop'' connectivity, multiple
+  innovative features: software-in-the-loop connectivity, multiple
   middleware support, configurable components, varying levels of simulation
   abstraction, distributed implementation for large scale multi-robot
   simulations and a human avatar that can interact with robots in virtual
@@ -138,11 +138,18 @@ complete sets of software components within a wide range of application contexts
 \NOTE{Simon finds the intro too poor as it is now: here one or two short
   paragraphs tha highlight the specificities of Morse should be written.}
 
-MORSE \footnote{User documentation and additional information are available at
-(\url{http://morse.openrobots.org}), and the source code can be downloaded from
-(\url{http://github.com/laas/morse.git}). MORSE works on all major
-  software platform: win32, Linux and OS X.} is developed as an open--source project with a BSD 3-clause
-license.
+The simulator is designed to be useful under varied environments, and provides
+features to adapt itself to existing robotic architectures, without imposing
+any changes on them to connect with MORSE. It has modular components
+that are versatile and configurable, to permit \emph{software-in-the-loop}
+(SIL) testing of robotics software.  Input from several researchers has guided
+the evolution of this tool to satisfy the requirements of different labs, while
+keeping to its design principles.
+MORSE works on all major software platforms: win32, Linux and OS X. It is
+developed as an open--source project with a BSD 3-clause license.
+\footnote{User documentation and additional information are available at
+\url{http://morse.openrobots.org}, and the source code can be downloaded from
+\url{http://github.com/laas/morse.git}.} 
 
 The outline of this paper is as follows. Section~\ref{section:othersims} reviews
 other comparable robotics simulators, and section~\ref{section:overview}
@@ -180,11 +187,12 @@ available on every platform.
 
 Another popular robotics simulator is Webots \cite{Webots04}, which is a
 commercial product. It provides a full programming environment to create
-customised robots and environments, but its interface is complex to use when
-creating new components and robots.
-\serge{Why the interface is complex ?}
+customised robots and environments, but the interface to construct new
+components and robots is unintuitive and complex, requiring searching though
+data trees to adjust physical and geometrical parameters.
+%\serge{Why the interface is complex ?}
 It also has an integrated code editor, but the control programs created in it
-must then be converted and transferred to the final robot platform.
+must later be converted and transferred to the final robot platform.
 
 
 
@@ -192,16 +200,17 @@ must then be converted and transferred to the final robot platform.
 \section{MORSE architecture overview}
 \label{section:overview}
 
+The Modular Open Robots Simulation Engine (MORSE) is a library of Python
+scripts that run on the Blender Game Engine (BGE) to interface a 3D virtual
+environment with external robotics software. Its main design principles have
+been described in \cite{5980252}. Here we present a quick overview of
+those principles.
+%Objects in the BGE can be completely configured, from physics properties (like
+%mass, friction coefficients and collision bounding boxes) to event and
+%behaviour scripts using Python.
 
-\serge{TODO: add a reference to the previous MORSE paper}
-
-MORSE is developed as a library of Python scripts that run on the Blender Game
-Engine (BGE).  The BGE offers a powerful environment for a graphical
-application and uses the Bullet physics library.
-Objects in the BGE can be completely configured, from physics properties (like
-mass, friction coefficients and collision bounding boxes) to event and
-behaviour scripts using Python.
-
+The BGE is used as the base platform for the graphical display of the simulated
+world and the physics simulation, using the Bullet physics library.
 The simulation is organised as a main core of control functionality that initialises
 and coordinates the events in the BGE, and a collection of components that
 can be used to assemble a robot with sensors and actuators.
@@ -218,30 +227,19 @@ MORSE aims to provide a simulation where complex robots can fully
 carry out missions in large scale environments.
 It does not intend to achieve super realistic simulation of each individual
 component, but a useful approximation of the behaviour of the whole ensemble.
-MORSE sensors and actuators can provide the same data as their real
-world counterparts. Some components have multiple variants that can work
-at different levels of realism and abstraction. This component simplification
-not only allows the simulation to be faster, but also permits the robotics
-researchers to concentrate on testing higher level algorithms for the
-completion of the desired tasks.
-
-Individual components are minimalistic in their functionality and  completely
-middleware agnostic.
+MORSE sensors and actuators are minimalistic in their functionality and completely
+middleware agnostic. They can provide the same data as their real
+world counterparts, but some of them have multiple variants that can work
+at different levels of realism and abstraction.
 The data employed by the components can be altered through the use of
 components called \emph{modifiers}. These add noise or change the data as
 required to match the data from real sensors/actuators. For instance,
 transforming the coordinate frame used by Blender into the Universal Transverse
 Mercator (UTM) coordinate system.
-%Components store the important data that needs to be shared outside MORSE in a
-%Python dictionary called \texttt{local\_data}.
 When a simulation scene is created, the components are linked to middlewares as
 specified in a configuration script, and the necessary functionality is added
-to the components to be able to transmit/receive data through the middleware.
-%During a simulation, each component performs its expected task and exchanges
-%the \texttt{local\_data} with the external software.
-%\serge{local\_data looks like an implementation trick for me. Is this
-%  really important to describe this mechanism in the paper ? What are
-%  the benefits regarding the simulation ?}
+to the components to be able to transmit/receive data through the middleware as
+data streams or synchronous/asynchronous requests.
 The whole data flow in MORSE can be seen in the diagram of
 Fig.~\ref{fig:dataflow}.
 
@@ -261,12 +259,12 @@ the language that Blender uses for its scripts. However, when coding components
 that require a faster processing time, they can be implemented in C/C++, and
 then use SWIG to create interfaces that can be included in Python.
 
-An important aspect is that MORSE must be consistent with the execution
-logic in the BGE. Python scripts in BGE are executed at a constant
-frequency, which is 60 Hz by default in Blender. MORSE components have to
-respect this base frequency or run at lower speeds, but not higher. However,
-the global frequency in Blender can be increased from the MORSE configuration
-scripts.
+%MORSE time management must be consistent with the execution
+%logic in the BGE. Python scripts in BGE are executed at a constant
+%frequency, which is 60 Hz by default in Blender. MORSE components have to
+%respect this base frequency or run at lower speeds, but not higher. However,
+%the global frequency in Blender can be increased from the MORSE configuration
+%scripts.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -326,7 +324,7 @@ components are classified as:
     environment.
     In MORSE, all sensors and actuators must be attached to a robot in order to
     function.
-    \serge{Are robots really components ?}
+    \serge{Are robots really components ?} \gilberto{Internally they are handled the same as other components, but they don't have associated actions at the moment}
   \item Sensors recover data from the simulated world and store it. This is
     done using the Blender predefined interfaces for the BGE and Python scripts.
     For example, a GPS will read the absolute coordinates of the sensor in the
@@ -420,6 +418,7 @@ sensor, they use the ``semantic camera'' to get the location of the target,
 adding some noise with modifiers to simulate both the sensor and the detection
 and identification process.
 \serge{Too much and here ...}
+\gilberto{Didn't understand your comment}
 
 %\serge{Semantic Camera and Components overlays should be emphasized as
 %  two new mechanisms of MORSE. Could we add more information on how
@@ -492,7 +491,7 @@ ECA Camelon, and Thales R-Trooper).
 
 Besides the existing variety of components and middlewares available, it is
 further possible to adapt these elements to better fit an existing
-architecture and allow true ``software-in-the-loop'' functionality.
+architecture and allow true \emph{software-in-the-loop} functionality.
 
 MORSE components provide dedicated I/O interfaces. In
 many cases, the interface methods will not be the same as those used in an
@@ -553,9 +552,10 @@ reflected the changes. The multi-node server is also charged with
 synchronising the time and events across all nodes. It can also be used
 to slow down the simulation in all nodes, by making them wait for the
 synchronisation message. However, at the current time it is not possible to
-accelerate the simulation speed.
+accelerate the simulation speed from the multi-node server.
 \serge{How you could accelerate the time without compromising the
   quality ?}
+\gilberto{Proposed a way to do it in the Future work section}
 
 This functionality was developed for applications that require a large amount
 of robots. Our use case is another outdoors robotics project: \emph{Rosace}
@@ -679,9 +679,10 @@ We have presented the new features developed on the MORSE simulator,
 following the requirements of a variety of projects in robotics research.
 The design and architecture of MORSE has proved to be flexible and powerful
 enough to allow researchers to use it under various circumstances to test their
-robotics algorithms. The development process is simple, and users can customise
-many features according to their needs.
-\serge{Why the dev process is simple ?}
+robotics algorithms. Users can customise the existing components according to
+their needs, or develop new ones when necessary, by describing their behaviour
+in Python scripts.
+%\serge{Why the dev process is simple ?}
 All new developments done on top of MORSE are made available to the whole
 community, thanks to the open source licence of the simulator.
 
@@ -691,17 +692,18 @@ middlewares, modular components and component overlays), heterogeneous robots
 synchronisation) and human-robot interaction (high abstraction level sensors
 and human avatar).
 
-Further work is planned to increase the usefulness of MORSE in robotics
-experiments:
+Further work is planned to increase the usefulness of MORSE:
 For human-robot-interaction experiments, it is ideal to have a higher
 immersion when using the human avatar.  A planned feature is to provide stereo
 images of the simulation to the user wearing special goggles. This can be done
 from Blender, with some separation of the images produced for the two eyes.
-Further integration with motion reading devices, such as Microsoft Kinect can
+Increased integration with motion reading devices, such as Microsoft Kinect can
 also make the experience more natural, by allowing a finer control over the
 human avatar.
 Another planned work is to be able to couple MORSE simulations with
 other physical simulation engines thanks to the HLA support.
+Further development is also necessary to give users more control over the speed
+of the simulation, by adjusting the base execution frequency of the BGE.
 
 \subsubsection*{Acknowledgments}
 This work has been partially supported by the DGA funded Action project
