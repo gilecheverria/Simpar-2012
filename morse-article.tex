@@ -139,7 +139,7 @@ The simulator is designed to be useful under varied environments, and provides
 features to adapt itself to existing robotic architectures, without imposing
 any changes on them to connect with MORSE. It has modular components
 that are versatile and configurable, to permit \emph{software-in-the-loop}
-(SIL) testing of robotics software.
+testing of robotics software.
 Input from several researchers has guided the evolution of this tool to satisfy
 the requirements of different labs, while keeping to its design principles.
 MORSE works on all major software platforms: win32, Linux and OS X. It is
@@ -230,9 +230,9 @@ world counterparts, but some of them have multiple variants that can work
 at different levels of realism and abstraction.
 The data employed by the components can be altered through the use of
 components called \emph{modifiers}. These add noise or change the data as
-required to match the data from real sensors/actuators. For instance,
+required to better match the data with real sensors/actuators (for instance,
 transforming the coordinate frame used by Blender into the Universal Transverse
-Mercator (UTM) coordinate system.
+Mercator coordinate system, or adding noise to images captured bu Blender cameras).
 When a simulation scene is created, the components are linked to middlewares as
 specified in a configuration script, and the necessary functionality is added
 to the components to be able to transmit/receive data through the middleware as
@@ -254,7 +254,7 @@ MORSE can be easily extended by adding new components that inherit from the
 existing base classes. All components are programmed in Python, since this is
 the language that Blender uses for its scripts. However, when coding components
 that require a faster processing time, they can be implemented in C/C++, and
-then use SWIG to create interfaces that can be included in Python.
+then use SWIG to create interfaces that can be used in Python.
 
 %MORSE time management must be consistent with the execution
 %logic in the BGE. Python scripts in BGE are executed at a constant
@@ -289,7 +289,7 @@ more difficult to create by hand.
 We have developed additional plug-ins for Blender that read Digital Elevation
 Map (DEM) files and create the appropriate 3D meshes. Adding normal maps and
 aerial photography for textures creates simulated environments that are very
-similar to the real ones. Figure~\ref{fig:models} shows the modeling
+similar-looking to the real ones. Figure~\ref{fig:models} shows the modeling
 capabilities of Blender being used to create the MORSE robots and an
 environment created from DEM data.
 
@@ -345,7 +345,7 @@ scenario.
 
 Building and configuration of scenarios are done with a set of Python
 classes provided by MORSE, known as the \emph{Builder API}. 
-Builder API provides an internal domain-specific language (DSL) that completely
+The Builder API provides an internal domain-specific language (DSL) that completely
 hides the somewhat complex interface of Blender from the user, so that those
 unfamiliar with Blender can directly configure MORSE using Python scripts.
 Scripts can then be tracked on a version control system to follow changes and
@@ -367,17 +367,17 @@ Many components come in several versions, which produce more or less
 realistic behavior, and can be chosen depending on the objective of the
 simulation and processing that will be applied to the data.
 
-Land robots can consist of rigid bodies for chassis and wheels (Segway RMP 400
-and Pioneer 3-DX) using physics constraints to give realistic movement based on
-the speeds of the wheels. Alternatively, some robots are handled as a single
-rigid box sliding over the ground (iRobot ATRV) when the details of the motion
-of the robot are not important. For aerial and submarine robots the
-physics are limited to collision detection, but they are not affected by
-gravity, and there is no simulation of air or wind currents.
-The associated actuators offer the choice between controlling the
-speeds of wheels independently, controlling the motion of a robot as a whole
+Ground robots can consist of rigid bodies for chassis and wheels using physics
+constraints to give realistic movement based on the speeds of the
+wheels. Alternatively, some robots are handled as a single rigid box sliding
+over the ground when the details of the motion of the robot are not
+important. For aerial and submarine robots the physics are limited to collision
+detection, but they are not affected by gravity, and there is no simulation of
+air or wind currents -- but external dynamic models can be linked to MORSE for
+such purposes. The associated actuators offer the choice between controlling
+the speeds of wheels independently, controlling the motion of a robot as a whole
 with linear and angular velocities, giving direct waypoint coordinates for
-destination or ``teleporting'' a robot to the desired location.
+destination or ``teleporting'' a robot to a desired location.
 
 Some sensors provide almost identical raw data as their real counterparts,
 which can then be processed to extract relevant information,
@@ -391,8 +391,8 @@ software. This generates too much data, and can slow down the simulation when
 rendering for several cameras at once. A new sensor called the \emph{semantic
 camera} uses Blender functions to determine the names and global 3D position of
 the objects within the view frustum of the camera. It outputs this data and
-avoids two steps of processing, making the simulation (up to 100\%) faster and
-avoiding image processing algorithms.
+avoids two steps of processing, making the simulation faster and
+avoiding the use of image processing algorithms.
 
 This flexibility permits scientists to focus on specific problems, by 
 simplifying some tasks and isolating the algorithms of interest.
@@ -465,7 +465,7 @@ robotic project called \emph{ANR-PROTEUS}, thanks to
 its middlewares versatility and the facility to integrate it with
 existing architectures.
 The PROTEUS project supports a model-driven engineering approach based on a
-domain-specific language and a robotic ontology\cite{Dhouib:2011zr} and aims at
+domain-specific language and a robotic ontology \cite{Dhouib:2011zr} and aims at
 providing a toolchain for robotic development from modeling to software
 simulation and deployment on real robots. PROTEUS is based on open-source
 softwares like the Eclipse Modeling Project, the ROS middleware and MORSE
@@ -541,7 +541,7 @@ be in charge of controlling a limited number of them. The movements
 of robots and specific objects in one node are sent to the multi-node
 manager, which in turn collects the updated positions across all nodes
 and redistributes the information, so that all nodes can immediately
-reflected the changes. The multi-node server also 
+reflect the changes. The multi-node server also 
 synchronizes the time and events across all nodes. This can be used
 to slow down the simulation in all nodes, by making them wait for the
 synchronization message. However, at the current time it is not possible to
