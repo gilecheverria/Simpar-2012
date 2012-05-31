@@ -124,7 +124,7 @@ provide enough fidelity with respect to the real world, within the requirements
 of the considered robotics application. Creating a fully realistic simulation in
 every aspect remains nearly impossible and sometimes can also be seen
 as an inconvenience. Therefore numerous simulators are
-focussed on a given specific aspect ({\em e.g.} terramechanics to study
+focused on a given specific aspect ({\em e.g.} terramechanics to study
 locomotion, contact forces to study manipulation, realistic photo-rendering to
 study vision algorithms, ...).
 
@@ -152,7 +152,7 @@ developed as an open--source project with a BSD 3-clause license.
 \url{http://github.com/laas/morse.git}.} 
 
 The outline of this paper is as follows. Section~\ref{section:othersims} reviews
-other comparable robotics simulators, and section~\ref{section:overview}
+other comparable robotics simulators, and Section~\ref{section:overview}
 introduces the main design principles of MORSE. Section~\ref{section:features}
 is the main part of the article: it depicts the main unique features of MORSE,
 each being exemplified with the projects for which they were developed. Finally
@@ -160,13 +160,13 @@ Section~\ref{section:discussion} gives the conclusion and future plans for the
 simulator.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Related work}
+\section{Related Work}
 \label{section:othersims}
 
 The Player/Stage/Gazebo\cite{psg-1232} is a well known robotics suite.
 It is a full set of tools that include the Player communication layer
 and two integrated simulators: Stage \cite{Gerkey03theplayer/stage} is basically a
-2D simulator optimised for navigation on flat and closed environments.
+2D simulator optimized for navigation on flat and closed environments.
 One of its advantages is the capability to handle very large numbers of
 simplified robots \cite{springerlink:10.1007/s11721-008-0014-4}. However, it is
 not ideal for more complex scenarios, specially in 3D space. The more recent
@@ -187,7 +187,7 @@ available on every platform.
 
 Another popular robotics simulator is Webots \cite{Webots04}, which is a
 commercial product. It provides a full programming environment to create
-customised robots and environments, but the interface to construct new
+customized robots and environments, but the interface to construct new
 components and robots is unintuitive and complex, requiring searching though
 data trees to adjust physical and geometrical parameters.
 %\serge{Why the interface is complex ?}
@@ -197,7 +197,7 @@ must later be converted and transferred to the final robot platform.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{MORSE architecture overview}
+\section{MORSE Architecture Overview}
 \label{section:overview}
 
 The Modular Open Robots Simulation Engine (MORSE) is a library of Python
@@ -207,11 +207,11 @@ been described in \cite{5980252}. Here we present a quick overview of
 those principles.
 %Objects in the BGE can be completely configured, from physics properties (like
 %mass, friction coefficients and collision bounding boxes) to event and
-%behaviour scripts using Python.
+%behavior scripts using Python.
 
 The BGE is used as the base platform for the graphical display of the simulated
 world and the physics simulation, using the Bullet physics library.
-The simulation is organised as a main core of control functionality that initialises
+The simulation is organized as a main core of control functionality that initializes
 and coordinates the events in the BGE, and a collection of components that
 can be used to assemble a robot with sensors and actuators.
 A variety of communication tools allow each of the MORSE components to connect
@@ -226,7 +226,7 @@ template for the new ones.
 MORSE aims to provide a simulation where complex robots can fully
 carry out missions in large scale environments.
 It does not intend to achieve super realistic simulation of each individual
-component, but a useful approximation of the behaviour of the whole ensemble.
+component, but a useful approximation of the behavior of the whole ensemble.
 MORSE sensors and actuators are minimalistic in their functionality and completely
 middleware agnostic. They can provide the same data as their real
 world counterparts, but some of them have multiple variants that can work
@@ -268,7 +268,7 @@ then use SWIG to create interfaces that can be included in Python.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Morse main features}
+\section{Morse Main Features}
 \label{section:features}
 
 
@@ -276,7 +276,7 @@ then use SWIG to create interfaces that can be included in Python.
 \subsection{Blender Integration}
 \label{section:blender}
 
-Being based on the Blender 3D \cite{blender|web} modelling software, any
+Being based on the Blender 3D \cite{blender|web} modeling software, any
 object, robot or environment can be created and immediately be made available
 to use in MORSE.
 Many file formats for 3D models can be imported directly into Blender, further
@@ -292,7 +292,7 @@ for experiments in \emph{field robotics} are more difficult to create by hand.
 We have developed additional plug-ins for Blender that can read Digital
 Elevation Map (DEM) files and create the appropriate 3D meshes. Additionally using aerial
 photography for textures creates simulated environments that are very similar
-to the real ones. Figure~\ref{fig:models} shows the modelling capabilities of
+to the real ones. Figure~\ref{fig:models} shows the modeling capabilities of
 Blender being used to create the MORSE robots and an environment created from
 DEM data.
 
@@ -302,7 +302,7 @@ DEM data.
  \includegraphics[height=1.55in]{pics/MORSE-rmax_mesh.png} &
  \includegraphics[height=1.55in]{pics/MORSE-quarry_ok-1.png}
 \end{tabular}
-\caption{Left: Modelling of an R-Max robotic helicopter. Right: Robots on a
+\caption{Left: Modeling of an R-Max robotic helicopter. Right: Robots on a
     terrain imported from a Digital Elevation Map; the view from a camera mounted
     on a helicopter robot is shown in the top right frame}
 \label{fig:models}
@@ -318,7 +318,7 @@ that can be used to construct robots with various configurations. The
 components are classified as:
 
 \begin{itemize}
-  \item Robots in MORSE have no behaviours. They are only define by a physical
+  \item Robots in MORSE have no behaviors. They are only define by a physical
     shape and properties like mass, friction and collision bounds, which are
     then used by the Bullet physics library to compute the interactions with the
     environment.
@@ -370,7 +370,7 @@ bindings, modifiers and services for each component.
 \label{section:realism}
 
 Many components come in several versions, which produce more or less
-realistic behaviour, and can be chosen depending on the objective of the
+realistic behavior, and can be chosen depending on the objective of the
 simulation and processing that will be applied to the data.
 
 Land robots can consist of rigid bodies for chassis and wheels (Segway RMP 400
@@ -463,7 +463,7 @@ its middlewares versatility and the facility to integrate it with
 existing architectures.
 The PROTEUS project supports a model-driven engineering approach based on a
 domain-specific language and a robotic ontology\cite{Dhouib:2011zr} and aims at
-providing a toolchain for robotic development from modelling to software
+providing a toolchain for robotic development from modeling to software
 simulation and deployment on real robots. PROTEUS is based on open-source
 softwares like the Eclipse Modeling Project, the ROS middleware and MORSE
 simulator. Several robot models are currently under construction (Wifibot,
@@ -471,7 +471,7 @@ ECA Camelon, and Thales R-Trooper).
 
 %The use of simulation is particularly beneficial for this project, since the trials
 %are done in a very specific environments, and require transporting the robots a
-%considerable distance, always being dependant on the prevailing weather.
+%considerable distance, always being dependent on the prevailing weather.
 %Software evaluation can be done in MORSE regardless of the weather, and not
 %having to plan long trips to the actual experimental site.
 %Simulation also simplifies the execution of test runs, since they can be
@@ -502,7 +502,7 @@ function with the two parameters. To avoid creating additional components,
 MORSE implements the notion of \emph{component overlays}. Following
 the well-known adapter pattern, they are implemented as
 special components that override (or wrap) the default
-behaviour to make it match a different architecture.
+behavior to make it match a different architecture.
 In the case of middlewares, it is possible to either use the default
 serialization methods provided by MORSE, or write additional serialization
 functions as extra scripts, specific for single components.
@@ -513,7 +513,7 @@ MORSE.
 These features have been used to connect MORSE with an existing
 Unmanned Aerial Vehicle (AUV) control architecture~\cite{barbier2011}
 without modifying the code in either the original architecture or MORSE.
-%Overlaying the components and middleware serialisations yields these results:
+%Overlaying the components and middleware serializations yields these results:
 %\begin{itemize}
 %  \item the middleware used is based on sockets; while the default MORSE socket
 %    middleware serializes the component data one after the other, it has been
@@ -549,9 +549,9 @@ of robots and specific objects in one node are sent to the multi-node
 manager, which in turn collects the updated positions across all nodes
 and redistributes the information, so that all nodes can immediately
 reflected the changes. The multi-node server is also charged with
-synchronising the time and events across all nodes. It can also be used
+synchronizing the time and events across all nodes. It can also be used
 to slow down the simulation in all nodes, by making them wait for the
-synchronisation message. However, at the current time it is not possible to
+synchronization message. However, at the current time it is not possible to
 accelerate the simulation speed from the multi-node server.
 \serge{How you could accelerate the time without compromising the
   quality ?}
@@ -568,11 +568,11 @@ payloads, and take autonomous decisions on which of them should perform
 different tasks in the mission, such as searching, providing a communications
 relay, and helping victims directly.
 For this project, two or three robots can be handled by a single simulation
-node, and synchronised with those in other nodes.  Special sensors in MORSE are
+node, and synchronized with those in other nodes.  Special sensors in MORSE are
 used to determine the distance and visibility between robots, and this
 information is used to simulate loss of connectivity between them.
 The victims to be saved are internally considered as robots with scripted
-behaviour, so that their status and position is also synchronised by the
+behavior, so that their status and position is also synchronized by the
 multi-node manager.
 
 Additionally, the multi-node system permits the deployment of hybrid
@@ -583,7 +583,7 @@ in simulation, so that other simulated robots can see it and interact with it.
 In the Action project, a real land robot moves around while the simulated
 helicopter can follow it using video cameras.
 The robots communicate in the same way they do either in full simulation or in
-real life. The use of HLA makes it possible to synchronise the heterogeneous
+real life. The use of HLA makes it possible to synchronize the heterogeneous
 systems in both the simulated and the real world.
 The real robots are not able to ``see'' the simulated ones with their
 cameras, but this is not a burden, since even in real life the land
@@ -594,7 +594,7 @@ robot is not capable of seeing the helicopter.
 \label{section:human}
 
 For human-robot-interaction scenarios, we require a way to combine the
-reactive and sometimes unpredictable behaviour of a human interacting with its
+reactive and sometimes unpredictable behavior of a human interacting with its
 environment with a simulated robot. Therefore the human avatar of the MORSE
 simulator has been equipped with an intuitive control that enables users to act
 upon the simulated environment. Inspired by modern 3D-computer games, the user
@@ -644,7 +644,7 @@ capable of grasping objects. They are also expected to react to the actions of
 their human collaborator, using video cameras, motion detectors or telemetry to
 determine the location, pose and attitude of the human.
 This can be done at two different levels of
-abstraction. Using the video cameras to recognise the human and its pose can be
+abstraction. Using the video cameras to recognize the human and its pose can be
 done realistically, with the associated computational cost and uncertainties.
 Alternatively, the avatar can directly export the position of all of its
 joints, and feed them back to the robot, simulating a full motion capture
@@ -652,7 +652,7 @@ system and avoiding the processing costs.
 
 
 An example use case in this scenario is the testing and validation of human-aware
-navigation planners of service robots in human-centred environments at TU Munich.
+navigation planners of service robots in human-centered environments at TU Munich.
 In this case, a simulated human tracking system provides the human pose to the
 robot while the robot navigates in the environment in a way that is safe and
 legible for the human \cite{kruse10exploiting}. In this project, MORSE has not only been used as a
@@ -661,7 +661,7 @@ experiments with real humans. It was also used for their evaluation as
 Lichtenth{\"a}ler et al. show in \cite{lichtenthaeler2012increasing} by
 video-based user studies. After successful testing and evaluation, the
 human-aware navigation was applied using real robots and humans resulting in
-a safe and reliable behaviour of the robot.
+a safe and reliable behavior of the robot.
 
 In another project at TU Munich, a simulated kitchen environment is used
 to test and evaluate a plan recognition and monitoring system using the
@@ -672,24 +672,24 @@ a reactive robot control system.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Summary and future work}
+\section{Summary and Future Work}
 \label{section:discussion}
 
 We have presented the new features developed on the MORSE simulator,
 following the requirements of a variety of projects in robotics research.
 The design and architecture of MORSE has proved to be flexible and powerful
 enough to allow researchers to use it under various circumstances to test their
-robotics algorithms. Users can customise the existing components according to
-their needs, or develop new ones when necessary, by describing their behaviour
+robotics algorithms. Users can customize the existing components according to
+their needs, or develop new ones when necessary, by describing their behavior
 in Python scripts.
 %\serge{Why the dev process is simple ?}
 All new developments done on top of MORSE are made available to the whole
-community, thanks to the open source licence of the simulator.
+community, thanks to the open source license of the simulator.
 
 MORSE allows for quick integration with an existing architecture (multiple
 middlewares, modular components and component overlays), heterogeneous robots
 (mixing components and middlewares), multiple robot simulation (multi-node
-synchronisation) and human-robot interaction (high abstraction level sensors
+synchronization) and human-robot interaction (high abstraction level sensors
 and human avatar).
 
 Further work is planned to increase the usefulness of MORSE:
@@ -712,7 +712,7 @@ This work has been partially supported by the DGA funded Action project
 project (\url{http://anr-proteus.fr/})
 
 % ---- Bibliography ----
-% \bibliographystyle{unsrt}
-\bibliographystyle{splncs03}
+\bibliographystyle{unsrt}
+% \bibliographystyle{splncs03}
 \bibliography{./morseBiblio,charles}
 \end{document}
