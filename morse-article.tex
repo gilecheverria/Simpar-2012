@@ -148,7 +148,7 @@ developed as an open--source project with a BSD 3-clause license.
 \url{http://morse.openrobots.org}, and the source code can be downloaded from
 \url{http://github.com/laas/morse.git}.} 
 
-The outline of this paper is as follows. Section~\ref{section:othersims} reviews
+The outline of this paper is as follows: Section~\ref{section:othersims} reviews
 other comparable robotics simulators, and Section~\ref{section:overview}
 introduces the main design principles of MORSE. Section~\ref{section:features}
 is the main part of the article: it depicts the main unique features of MORSE,
@@ -326,7 +326,7 @@ methods and algorithms, or control moving parts such as robotic arms or
 pan-tilt units. In most cases, the motions are implemented using the
 functions in Blender to add a certain linear and angular speed to an
 object.
-Robotic arms consist on a series of articulated segments, and use the
+Robotic arms consist of a series of articulated segments, and use the
 Blender armature system to determine the degrees of freedom at each joint.
 They can be operated either by direct control of the angles at each joint
 or by control of the end effector with Inverse Kinematics (using iTaSC
@@ -339,7 +339,7 @@ used by the Bullet physics library to compute the interactions with
 the environment.
 
 The component library also includes other objects that can be used in the
-simulation, from large outdoors environments, to furniture and small items.
+simulation, from large outdoor environments, to furniture and small items.
 All of these can be imported from individual Blender files into a simulation
 scenario.
 
@@ -367,7 +367,7 @@ Many components come in several versions, which produce more or less
 realistic behavior, and can be chosen depending on the objective of the
 simulation and processing that will be applied to the data.
 
-Ground robots can consist of rigid bodies for chassis and wheels using physics
+Ground robots can consist of rigid bodies for chassis and wheels using physical
 constraints to give realistic movement based on the speeds of the
 wheels. Alternatively, some robots are handled as a single rigid box sliding
 over the ground when the details of the motion of the robot are not
@@ -381,7 +381,7 @@ destination or ``teleporting'' a robot to a desired location.
 
 Some sensors provide almost identical raw data as their real counterparts,
 which can then be processed to extract relevant information,
-and later used to take decisions. When the processing of data is not of
+and later used to make decisions. When the processing of data is not of
 interest to the experiment, alternative sensors can be used that provide
 higher level data, extracted directly from the BGE scenario, and avoid costly
 processing.
@@ -406,7 +406,7 @@ On a second scenario~\cite{carvalho2012}, a POMDP model is used to optimize the
 probability to track and intercept an identified target among others. As the
 objective is to evaluate the optimized strategy, processing
 simulated images is not necessary. Hence, instead of using a video camera
-sensor, they use the \emph{semantic camera} to get the location of the target,
+sensor, they use the \emph{semantic camera} to identify the location of the target,
 adding some noise with modifiers to simulate both the sensor and the detection
 and identification process.
 %\serge{Too much and here ...}
@@ -550,7 +550,7 @@ accelerate the simulation speed from the multi-node server.
 %\gilberto{Proposed a way to do it in the Future work section}
 
 This functionality was developed for applications that require a large amount
-of robots. Our use case is another outdoors robotics project: \emph{Rosace}
+of robots. Our use case is another outdoor robotics project: \emph{Rosace}
 \cite{springerlink:10.1007/978-3-642-12384-9_18,springerlink:10.1007/978-3-642-28786-2_32}.
 Its main objective is the coordination of robotic agents in search and rescue
 operations in the case of a disaster. In this scenario, terrestrial robots must
