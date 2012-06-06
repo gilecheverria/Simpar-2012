@@ -42,7 +42,9 @@
 
 \lstset{language=Python, basicstyle=\scriptsize, tabsize=4}
 
-\title{\LARGE \bf Versatile Robotics Simulation Using MORSE}
+\title{\LARGE \bf User Driven Improvements to Robotics Simulation in MORSE}
+%\title{\LARGE \bf Robotics Simulation Driven by Projects Using MORSE}
+%\title{\LARGE \bf Versatile Robotics Simulation Using MORSE}
 %\title{\LARGE \bf Evaluation of Robotics Software Using the MORSE Simulator}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -127,7 +129,7 @@ study vision algorithms, ...).
 
 The MORSE simulator presented here is not targeted to the study of a specific
 domain of robotics, but is rather meant as a tool that can be used to test and
-evaluate {\em integrated robots}, {\em i.e.} the suite of processes required to
+evaluate {\em integrated robot software}, {\em i.e.} the suite of processes required to
 autonomously achieve complex missions. Using Blender to simulate photo-realistic
 3D worlds and the associated physics engine, it brings enough realism to evaluate
 complete sets of software components within a wide range of application contexts.
@@ -182,15 +184,20 @@ software and does not support some of the most common robotics
 middlewares. The Unreal Development Kit (UDK) used is a closed-source library and is not
 available on every platform.
 
-Another popular robotics simulator is Webots \cite{Webots04}, which is a
-commercial product. It provides a full programming environment to create
+Webots \cite{Webots04} is a popular commercial simulator.
+It provides a full programming environment to create
 customized robots and environments, but the interface to construct new
-components and robots is unintuitive and complex, requiring searching though
+components and robots is unintuitive and complex, requiring searching trough
 data trees to adjust physical and geometrical parameters.
-%\serge{Why the interface is complex ?}
 It also has an integrated code editor, but the control programs created in it
 must later be converted and transferred to the final robot platform.
 
+Another commercial simulator is V-REP \cite{Freese:2010:VRE:1947545.1947555},
+with a large variety of components and sensors available. It allows
+scripting of the components using the LUA language. Being modular, it
+allows for copy-and-paste functionality of the components. However,
+provides no native method for communication with middlewares; such
+functionality must be provided by the user in the form of add-ons.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -232,7 +239,7 @@ The data employed by the components can be altered through the use of
 components called \emph{modifiers}. These add noise or change the data as
 required to better match the data with real sensors/actuators (for instance,
 transforming the coordinate frame used by Blender into the Universal Transverse
-Mercator coordinate system, or adding noise to images captured bu Blender cameras).
+Mercator coordinate system, or adding noise to images captured by Blender cameras).
 When a simulation scene is created, the components are linked to middlewares as
 specified in a configuration script, and the necessary functionality is added
 to the components to be able to transmit/receive data through the middleware as
@@ -354,10 +361,6 @@ The API offers classes to add robots, sensors and actuators, to position,
 rename and configure any of the parameters used by these components, to
 include additional objects (furniture, obstacles, etc.) and to add middleware
 bindings, modifiers and services for each component.
-%When executing MORSE, the Builder API will create a new Blender file with all
-%the parameters necessary to run the simulation. Afterwards, when the BGE is
-%started, it will use the parameters given to the components to produce the data
-%in the simulation.
 
 %-----------------------------------------------%
 \subsection{Adjustable Levels of Realism}
@@ -394,10 +397,9 @@ the objects within the view frustum of the camera. It outputs this data and
 avoids two steps of processing, making the simulation faster and
 avoiding the use of image processing algorithms.
 
-This flexibility permits scientists to focus on specific problems, by 
-simplifying some tasks and isolating the algorithms of interest.
-%\serge{I don't understand the point here.} \gilberto{Is this phrasing more clear?}
-For instance, researchers from ONERA use MORSE to evaluate online probabilistic
+%This flexibility permits scientists to focus on specific problems, by 
+%simplifying some tasks and isolating the algorithms of interest.
+In practical use, researchers from ONERA use MORSE to evaluate online probabilistic
 decision-making on an autonomous UAV. In a first scenario~\cite{teichteil2011},
 MDP-based policy optimization allows the UAV to find a suitable zone for an
 emergency landing. MORSE video camera sensors are used to feed the raw image data
@@ -421,6 +423,7 @@ and identification process.
 %  very accurate physical model compared to the basic ones.}
 
 %-----------------------------------------------%
+
 \subsection{Middleware Configurations}
 \label{section:middlewares}
 
@@ -445,7 +448,7 @@ locate and follow moving targets.
 Each lab provides an existing robotics platform with very different
 architectures: LAAS employs Segway RMP 400 land robots, using the \genom
 \cite{MALLET-2011-599677} architecture, while ONERA works with Yamaha R-Max
-helicopters based on Orocos \cite{orocos2003}. The simulation uses Pocolibs to
+helicopters based on OROCOS \cite{orocos2003}. The simulation uses Pocolibs to
 communicate with \genom, and YARP to talk with OROCOS.
 
 %The use of simulation is particularly beneficial for this project, since the trials
@@ -551,7 +554,8 @@ accelerate the simulation speed from the multi-node server.
 
 This functionality was developed for applications that require a large amount
 of robots. Our use case is another outdoor robotics project: \emph{Rosace}
-\cite{springerlink:10.1007/978-3-642-12384-9_18,springerlink:10.1007/978-3-642-28786-2_32}.
+\cite{springerlink:10.1007/978-3-642-28786-2_32}.
+%\cite{springerlink:10.1007/978-3-642-12384-9_18,springerlink:10.1007/978-3-642-28786-2_32}.
 Its main objective is the coordination of robotic agents in search and rescue
 operations in the case of a disaster. In this scenario, terrestrial robots must
 be able to locate human victims, provide support for the victims and avoid
@@ -653,10 +657,10 @@ video-based user studies. After successful testing and evaluation, the
 human-aware navigation was applied using real robots and humans resulting in
 a safe and reliable behavior of the robot.
 
-In another project at TU Munich, a simulated kitchen environment is used
-to test and evaluate a plan recognition and monitoring system using the
-semantic camera of MORSE as a simulated object recognition system with
-a reactive robot control system.
+%In another project at TU Munich, a simulated kitchen environment is used
+%to test and evaluate a plan recognition and monitoring system using the
+%semantic camera of MORSE as a simulated object recognition system with
+%a reactive robot control system.
 % \serge{A missing reference ?} Unfortunately there is no publication about this 
 % project yet... 
 
@@ -702,7 +706,8 @@ This work has been partially supported by the DGA funded Action project
 project (\url{http://anr-proteus.fr/})
 
 % ---- Bibliography ----
-\bibliographystyle{unsrt}
+\bibliographystyle{ieeetr}
+%\bibliographystyle{unsrt}
 % \bibliographystyle{splncs03}
 \bibliography{./morseBiblio,charles}
 \end{document}
