@@ -101,7 +101,7 @@
   real-time engine which brings realistic rendering and physics simulation. The
   simulations can be specified at various levels of abstraction. This enables
   researchers to focus on their field of interest, that can range from
-  simulation of low-level sensor processing to the integration of a complete
+  processing low-level sensor data to the integration of a complete
   team of robots. After nearly three years of development, MORSE is a mature
   tool with a large collection of components, that provides many innovative
   features: software-in-the-loop connectivity, multiple middleware support,
@@ -153,8 +153,8 @@ developed as an open--source project with a BSD 3-clause license.
 The outline of this paper is as follows: Section~\ref{section:othersims} reviews
 other comparable robotics simulators, and Section~\ref{section:overview}
 introduces the main design principles of MORSE. Section~\ref{section:features}
-is the main part of the article: it depicts the main unique features of MORSE,
-each being exemplified with the projects for which they were developed. Finally
+is the heart part of the article: it depicts the main features of MORSE, each
+being exemplified with the projects for which they were developed. Finally
 Section~\ref{section:discussion} gives the conclusion and future plans for the
 simulator.
 
@@ -195,7 +195,7 @@ must later be converted and transferred to the final robot platform.
 Another commercial simulator is V-REP \cite{Freese:2010:VRE:1947545.1947555},
 with a large variety of components and sensors available. It allows
 scripting of the components using the LUA language. Being modular, it
-allows for copy-and-paste functionality of the components. However,
+allows for copy-and-paste functionality of the components. However, it
 provides no native method for communication with middlewares; such
 functionality must be provided by the user in the form of add-ons.
 
@@ -207,8 +207,7 @@ functionality must be provided by the user in the form of add-ons.
 The Modular Open Robots Simulation Engine (MORSE) is a library of Python
 scripts that run on the Blender Game Engine (BGE) to interface a 3D virtual
 environment with external robotics software. Its main design principles have
-been described in \cite{5980252}. Here we present a quick overview of
-those principles.
+been described in \cite{5980252}, they are quickly recalled here.
 %Objects in the BGE can be completely configured, from physics properties (like
 %mass, friction coefficients and collision bounding boxes) to event and
 %behavior scripts using Python.
@@ -223,16 +222,16 @@ with external robotics software through middlewares.
 MORSE has support for some of the most commonly used robotics
 middlewares nowadays, including ROS \cite{ros-288}, Pocolibs
 \cite{Pocolibs|web} and YARP \cite{metta|ars06}.
-Other middlewares are constantly being added, mainly driven by the needs of new
-users. This process is simple, as existing middleware bindings can be used as a
-template for the new ones.
+Other middlewares are regularly being added, mainly driven by the needs of new
+users. This process is simple, as existing middleware bindings can be used as
+templates for the new ones.
 
 %MORSE aims to provide a simulation where complex robots can fully
 %carry out missions in large scale environments.
 %It does not intend to achieve super realistic simulation of each individual
 %component, but a useful approximation of the behavior of the whole ensemble.
 MORSE sensors and actuators are minimalistic in their functionality and completely
-middleware agnostic. They can provide the same data as their real
+middleware agnostic. They can provide similar data as their real
 world counterparts, but some of them have multiple variants that can work
 at different levels of realism and abstraction.
 The data employed by the components can be altered through the use of
@@ -260,8 +259,8 @@ Fig.~\ref{fig:dataflow}.
 MORSE can be easily extended by adding new components that inherit from the
 existing base classes. All components are programmed in Python, since this is
 the language that Blender uses for its scripts. However, when coding components
-that require a faster processing time, they can be implemented in C/C++, and
-then use SWIG to create interfaces that can be used in Python.
+that require a faster processing time, they can be implemented in C/C++ and
+interfaced with Python using Swig.
 
 %MORSE time management must be consistent with the execution
 %logic in the BGE. Python scripts in BGE are executed at a constant
@@ -281,7 +280,7 @@ then use SWIG to create interfaces that can be used in Python.
 \label{section:blender}
 
 Being based on the Blender 3D \cite{blender|web} modeling software, any
-object, robot or environment can be created and immediately be made available
+object, robot or environment can be created and immediately be made ready
 to use in MORSE.
 Many file formats for 3D models can be imported directly into Blender, further
 increasing the range of elements that can be used.
