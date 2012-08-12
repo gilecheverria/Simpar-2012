@@ -42,7 +42,7 @@
 
 \lstset{language=Python, basicstyle=\scriptsize, tabsize=4}
 
-\title{\LARGE \bf User Driven Improvements to Robotics Simulation in MORSE}
+\title{\LARGE \bf Simulating complex robotic scenarios with MORSE}
 %\title{\LARGE \bf Robotics Simulation Driven by Projects Using MORSE}
 %\title{\LARGE \bf Versatile Robotics Simulation Using MORSE}
 %\title{\LARGE \bf Evaluation of Robotics Software Using the MORSE Simulator}
@@ -289,15 +289,15 @@ simulations, and very important when doing image processing from simulated
 video cameras.
 It is convenient to have simulation environments recreating the terrain and
 buildings of real experimentation sites.
-Transforming the 2D plan of a building into a 3D model is straightforward in
+Transforming the 2D map of a building into a 3D model is straightforward in
 Blender. However, outdoor terrains for experiments in \emph{field robotics} are
 more difficult to create by hand.
 We have developed additional plug-ins for Blender that read Digital Elevation
 Map (DEM) files and create the appropriate 3D meshes. Adding normal maps and
-aerial photography for textures creates simulated environments that are very
-similar-looking to the real ones. Figure~\ref{fig:models} shows the modeling
-capabilities of Blender being used to create the MORSE robots and an
-environment created from DEM data.
+aerial photography for textures creates very realistic simulated
+environments. Figure~\ref{fig:models} shows the modeling  
+capabilities of Blender exploited in MORSE to create robots and 
+environments from DEM data.
 
 \begin{figure}[ht!]
 \centering
@@ -321,10 +321,10 @@ with various configurations.
 \emph{Sensors} recover data from the simulated world and store it. This is
 done using the Blender predefined interfaces for the BGE and Python scripts.
 For example, GPS read the absolute coordinates of the sensor in the
-Blender world, laser scanners use ray tracing operations to detect
-obstacles and cameras use renders from the perspective of the camera to
-produce images. Parameters that determine how the sensors gather data can
-be adjusted, such as range, resolution, image sizes, etc.
+Blender world, laser scanners use ray tracing operations of z-buffers to
+generate range images and cameras use renders from the perspective of the
+Blender camera to produce images. Parameters that determine how the sensors
+gather data can be adjusted, such as range, resolution, image sizes, etc.
 
 \emph{Actuators} carry out actions within the simulated
 world. They provide motion to the robots through several
@@ -389,16 +389,16 @@ higher level data, extracted directly from the BGE scenario, and avoid costly
 processing.
 The clearest example of this are the cameras: the regular video camera
 generates renders of the Blender scene, and outputs images to be processed by
-software. This generates too much data, and can slow down the simulation when
+software. This generates much data, and can slow down the simulation when
 rendering for several cameras at once. A new sensor called the \emph{semantic
 camera} uses Blender functions to determine the names and global 3D position of
-the objects within the view frustum of the camera. It outputs this data and
-avoids two steps of processing, making the simulation faster and
+the objects within the view frustum of the camera. It directly outputs this
+data, making the simulation of object detection faster and
 avoiding the use of image processing algorithms.
 
 %This flexibility permits scientists to focus on specific problems, by 
 %simplifying some tasks and isolating the algorithms of interest.
-In practical use, researchers from ONERA use MORSE to evaluate online probabilistic
+As a practical example, researchers from ONERA use MORSE to evaluate online probabilistic
 decision-making on an autonomous UAV. In a first scenario~\cite{teichteil2011},
 MDP-based policy optimization allows the UAV to find a suitable zone for an
 emergency landing. MORSE video camera sensors are used to feed the raw image data
@@ -407,9 +407,9 @@ On a second scenario~\cite{carvalho2012}, a POMDP model is used to optimize the
 probability to track and intercept an identified target among others. As the
 objective is to evaluate the optimized strategy, processing
 simulated images is not necessary. Hence, instead of using a video camera
-sensor, they use the \emph{semantic camera} to identify the location of the target,
-adding some noise with modifiers to simulate both the sensor and the detection
-and identification process.
+sensor, the \emph{semantic camera} is used to identify the location of the target,
+adding some errors with modifiers to simulate both the sensor and the detection
+and identification processes.
 %\serge{Too much and here ...}
 %\gilberto{Didn't understand your comment}
 
@@ -426,7 +426,7 @@ and identification process.
 \subsection{Middleware Configurations}
 \label{section:middlewares}
 
-Many research laboratories use different interfaces to communicate with their
+Research laboratories use different middlewares to connect the processes within their
 robots. In order to be usable with any architecture, MORSE enforces a
 clear separation between components and middlewares. When a simulation is started,
 the bindings between sensors/actuators and middlewares are read from the
@@ -439,12 +439,12 @@ raw TCP/IP sockets.
 Information exchange between the simulator and the robotics software can be
 done by a constant data stream, or via request/reply interfaces.
 
-MORSE permits using many different middlewares within a single simulation
+MORSE permits using different middlewares within a single simulation
 scenario with heterogeneous systems. This is exemplified in the \emph{Action
 project} \cite{6106782} developed by the LAAS and ONERA labs.
 It consists in the cooperation of ground and air robots to patrol a zone,
 locate and follow moving targets.
-Each lab provides an existing robotics platform with very different
+Each lab provides an existing robotics platform with two different
 architectures: LAAS employs Segway RMP 400 land robots, using the \genom
 \cite{MALLET-2011-599677} architecture, while ONERA works with Yamaha R-Max
 helicopters based on OROCOS \cite{orocos2003}. The simulation uses Pocolibs to
@@ -484,7 +484,7 @@ ECA Camelon, and Thales R-Trooper).
 %\serge{Component overlays could be seen as an implementation of the
 %  adapter Pattern: \url{https://en.wikipedia.org/wiki/Adapter_pattern}}
 
-Besides the components and middlewares already available, it is
+Besides the components and middlewares available, it is
 further possible to adapt these elements to better fit an existing
 architecture and allow true \emph{software-in-the-loop} functionality.
 MORSE components provide dedicated I/O interfaces. In
@@ -530,7 +530,7 @@ without modifying the code in either the original architecture or MORSE.
 %  advance that should be cited appropriately.}
 The simulation of multiple robots in the complex environments permitted by
 MORSE is very demanding on computational and graphics resources.
-A scenario with several robots, video cameras and
+A scenario with several robots equipped with video cameras and
 other sensors, plus the robotics software all running on the same computer will
 slow down the system considerably. MORSE offers the possibility of running
 multiple instances of the same simulation scenario in separate computers,
@@ -552,7 +552,7 @@ accelerate the simulation speed from the multi-node server.
 %\gilberto{Proposed a way to do it in the Future work section}
 
 This functionality was developed for applications that require a large amount
-of robots. Our use case is another outdoor robotics project: \emph{Rosace}
+of robots. Our use case is the rescue robotics project \emph{Rosace}
 \cite{springerlink:10.1007/978-3-642-28786-2_32}.
 %\cite{springerlink:10.1007/978-3-642-12384-9_18,springerlink:10.1007/978-3-642-28786-2_32}.
 Its main objective is the coordination of robotic agents in search and rescue
@@ -572,17 +572,17 @@ multi-node manager.
 
 Additionally, the multi-node system permits the deployment of hybrid
 simulations. A 3D environment that closely represents the real experimentation
-site is used. Real life robots report their updated positions to the multi-node
+site is used. Real robots report their updated positions to the multi-node
 server, which reflects the changes on a dummy robot 
 in the simulation, so that other simulated robots can see it and interact with it.
-In the Action project, a real land robot moves around while the simulated
+In the Action project, a real ground robot moves around while the simulated
 helicopter can follow it using video cameras.
-The robots communicate in the same way they do either in full simulation or in
+The robots communicate in the same way in full simulation or in
 real life. The use of HLA makes it possible to synchronize the heterogeneous
-systems in both the simulated and the real world.
-The real robots are not able to ``see'' the simulated ones with their
-cameras, but this is not a burden, since even in real life the land
-robot is not capable of seeing the helicopter.
+systems in both the simulated and the real world. Note however that 
+the real robots are not able to ``see'' the simulated ones with their
+cameras -- but this could be achieved using an augmented reality scheme that
+would modify the data gathered by the real robots.
 
 %-----------------------------------------------%
 \subsection{The Human Avatar}
@@ -593,8 +593,8 @@ reactive and sometimes unpredictable behavior of a human interacting with its
 environment with a simulated robot. Therefore the human avatar of the MORSE
 simulator has been equipped with an intuitive control that enables users to act
 upon the simulated environment. Inspired by modern 3D-computer games, the user
-takes a third-person perspective behind the human avatar to move around like
-shown in Fig.~\ref{fig:human_control} on the left.
+takes a third-person perspective behind the human avatar to move around as
+shown in Fig.~\ref{fig:human_control} (left).
 While moving around, the camera tries to avoid the objects and walls placed
 between the camera and the human avatar to prevent occlusions.  All objects
 that can be interacted with can be displayed by pressing a key on the
@@ -602,7 +602,7 @@ keyboard (also illustrated in Fig.~\ref{fig:human_control}). When the user
 decides to interact with an object, the camera switches to a first-person
 perspective and offers an interface showing possible actions the
 user can take when pointing to specific objects, as shown in Fig.~
-\ref{fig:human_control} on the right. Those actions at the moment include
+\ref{fig:human_control} (right). Those actions at the moment include
 picking up and releasing objects, opening and closing drawers and cupboards and
 switching on and off specific objects like a light or an oven.
 
@@ -620,7 +620,7 @@ switching on and off specific objects like a light or an oven.
 \end{figure}
 
 The motions of the avatar are animated using Blender %functionality such as
-armatures, Inverse Kinematics, and predefined movement loops.
+armatures, inverse kinematics, and predefined movement loops.
 The avatar can be controlled much like a character in a videogame, using either
 the mouse and keyboard or a combination of the Microsoft Kinect and the
 Nintendo Wiimote. This enables users to perform
@@ -629,7 +629,7 @@ simulated robot(s) can be controlled through the supported robotic middlewares.
 
 % TODO: Add picture of kinect/wiimote control
 
-The human avatar is meant to be used in \emph{indoor service robotics} scenarios.
+The human avatar is meant to be used in \emph{personal robotics} scenarios.
 In these, complex robots are expected to collaborate with humans to carry out
 ordinary household tasks, such as cleaning, serving food or aiding humans to
 navigate an environment.
@@ -650,7 +650,7 @@ In this case, a simulated human tracking system provides the human pose to the
 robot while the robot navigates in the environment in a way that is safe and
 legible for the human \cite{kruse10exploiting}. In this project, MORSE has not only been used as a
 powerful tool for testing human-aware navigation strategies before carrying out
-experiments with real humans. It was also used for their evaluation as
+experiments with real humans: it has also been used to evaluate them as
 Lichtenth{\"a}ler et al. show in \cite{lichtenthaeler2012increasing} by
 video-based user studies. After successful testing and evaluation, the
 human-aware navigation was applied using real robots and humans resulting in
@@ -668,7 +668,7 @@ a safe and reliable behavior of the robot.
 \section{Summary and Future Work}
 \label{section:discussion}
 
-We have presented the new features developed on the MORSE simulator,
+We have presented the main features developed within the MORSE simulator,
 following the requirements of a variety of projects in robotics research.
 The design and architecture of MORSE has proved to be flexible and powerful
 enough to allow researchers to use it under various circumstances to test their
@@ -686,9 +686,10 @@ synchronization) and human-robot interaction (high abstraction level sensors
 and human avatar).
 
 Further work is planned to increase the usefulness of MORSE:
-For human-robot-interaction experiments, it is ideal to have a higher
+for human-robot-interaction experiments, it is ideal to have a deeper
 immersion when using the human avatar.  A planned feature is to provide stereo
-images of the simulation to the user wearing special goggles. This can be done
+images of the simulation to the user wearing special goggles. This can trivially
+be done
 from Blender, with some separation of the images produced for the two eyes.
 Increased integration with motion reading devices, such as Microsoft Kinect can
 also make the experience more natural, by allowing a finer control over the
